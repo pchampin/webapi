@@ -1,0 +1,7 @@
+S1
+====
+
+.. include:: common.rst.inc
+.. ifslides::
+
+   .. include:: credits.rst.inc

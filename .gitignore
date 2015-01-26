@@ -1,0 +1,10 @@
+# This .gitignore is included in the project,
+# to ensure that noone accidentally commits the build directory.
+# It should only contain entries that concern *anyone* building the project.
+# If you have specific need, please consider either:
+# - adding them in a subdirectory/.gitignore,
+#   where that file contains '.gitignore' so it is ignored itself
+# - adding them in your global ignore file,
+#   using: git config --global core.excludesfile ~/.gitignore_global 
+
+build
