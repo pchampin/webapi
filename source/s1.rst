@@ -1,7 +1,384 @@
-S1
-====
+Le Web : une plateforme de services
+===================================
 
 .. include:: common.rst.inc
 .. ifslides::
 
    .. include:: credits.rst.inc
+
+Rappels
++++++++
+
+Architecture Client-Serveur
+---------------------------
+
+* **Ressource**:
+  toute unité d'information (document, image, vidéo, **données**...)
+  accessible sur le Web
+
+* **Serveur**:
+  un ordinateur « contenant » des ressources, toujours connecté à Internet.
+
+* **Client**:
+  un ordinateur/smartphone/tablette...
+  utilisé pour **exploiter** des ressources.
+
+.. figure:: _static/client-server.png
+   :height: 8ex  
+
+   Source image http://commons.wikimedia.org/wiki/File:Client-server-model.svg
+
+Rôle du client
+--------------
+
+* L'exploitation des ressources par le client est souvent assimilé à leur *affichage*,
+  mais c'est une simplification.
+
+* Elle suppose toujours un **calcul**, plus ou moins complexe.
+
+Rôle du serveur
+---------------
+
+* De même, on réduit la plupart du temps le rôle du serveur à celui d'un *fournisseur* de données.
+
+* Or dans de nombreux cas, le serveur reçois également des données du client :
+
+  - requête à un moteur de recherche,
+  - commande passée sur un site marchant,
+  - message posté sur un mur...
+
+* Ces données modifient l'état des autres ressources...
+
+Conclusion
+----------
+
+* Le web est donc plus qu'un espace documentaire
+  permettant la consultation des ressources
+  qui ne seraient que des textes et des médias.
+
+* C'est une plateforme de **services**
+  permettant la consultation et la modification des ressources de tous types,
+  incluant des données structurées.
+
+Structure d'une requête HTTP
+++++++++++++++++++++++++++++
+
+.. récupéré de mon cours sur REST le 26/01/2015
+
+Exemple de requête HTTP
+-----------------------
+
+.. rubric:: Requête à http://www.w3.org/
+
+.. rst-class:: request
+.. code-block:: http
+
+ GET / HTTP/1.1
+ Host: www.w3.org
+ User-Agent: Mozilla/5.0 (X11; U; Linux i686;
+        fr; rv:1.9.1) Gecko/20090624 Firefox/3.5
+ Accept: text/html,application/xhtml+xml,
+        application/xml;q=0.9,*/*;q=0.8
+ Accept-Language: fr,en;q=0.5
+ Accept-Encoding: gzip,deflate
+ Accept-Charset: UTF-8,*
+ Connection: keep-alive
+ Keep-Alive: 300
+
+
+
+Exemple de réponse HTTP
+-----------------------
+
+.. rubric:: Réponse de http://www.w3.org/ 
+
+.. rst-class:: response
+.. code-block:: http
+
+ HTTP/1.x 200 OK
+ Date: Mon, 02 Nov 2009 22:46:26 GMT
+ Server: Apache/2
+ Accept-Ranges: bytes
+ Content-Type: text/html; charset=utf-8
+ Content-Length: 29794
+ Etag: "7462-477341dcfb940;89-3f26bd17a2f00"
+ Last-Modified: Sat, 31 Oct 2009 05:07:09 GMT
+ Content-Location: Home.html
+ Vary: negotiate,accept
+ Cache-Control: max-age=600
+ Expires: Mon, 02 Nov 2009 22:56:26 GMT
+ Connection: close
+
+ (data)                                                        ...
+
+
+
+Sémantique de la requête et de la réponse
+-----------------------------------------
+
+La requête consiste à appliquer un *verbe* à la ressource.
+
+* GET signifie ici « obtenir une représentation de la ressource ».
+* Le champs ``Host`` est obligatoire depuis HTTP/1.1 (car un même serveur peut
+  servir plusieurs noms de domaine).
+
+.. rst-class:: request
+.. code-block:: http
+
+ GET / HTTP/1.1
+ Host: www.w3.org
+
+La réponse commence par un *code de statut* numérique indiquant le résultat .
+
+* Le code est suivi d'un libellé textuel pour améliorer la lisibilité.
+
+.. rst-class:: response
+.. code-block:: http
+
+ HTTP/1.x 200 OK
+
+
+Verbes
+------
+
+HTTP définit quatre (principaux) verbes pour la manipulation des ressources :
+
+* GET : récupérer l'état de la ressource
+* PUT : attribuer l'état de la ressource
+* DELETE : supprimer la ressource
+* POST : fournir des données à la ressource
+
+Les requêtes POST et PUT supposent un envoi de données (*payload*) au serveur. Ces données peuvent être de n'importe quel type, qui sera spécifié dans la requête (``Content-Type``).
+
+
+Verbes (suite)
+``````````````
+
+Certains auteurs préfèrent caractériser les verbes HTTP
+simplement par rapport à leurs propriétés :
+
+* GET : idempotente, sans effet de bord
+* PUT : idempotente, avec effet de bord
+* DELETE : idempotente, avec effet de bord
+* POST : non-idempotente, avec effet de bord
+
+qui conditionnent le comportement des composants intermédiaires.
+
+
+Codes de statut
+---------------
+
+HTTP définit 40 codes de statut, répartis en cinq catérogires :
+
+.. list-table::
+   :header-rows: 1
+
+   * - Catégories
+
+     - Exemples
+
+   * - 1xx : Information
+   
+     - 100 Continue
+   
+   * - 2xx : Succès
+   
+     - 200 OK
+   
+   * - 3xx : Redirection
+   
+     - 301 Moved Permanently
+   
+   * - 4xx : Erreur client
+   
+     - 404 Not Found, 401 Unauthorized
+   
+   * - 5xx : Erreur serveur
+   
+     - 500 Internal Server Error
+   
+
+
+Identification
+--------------
+
+Le client et le serveur donnent des indications sur leur identité et leur
+contexte.
+
+* Utile notamment pour les terminaux mobiles.
+
+.. rst-class:: request
+.. code-block:: http
+
+ User-Agent: Mozilla/5.0 (X11; U; Linux i686;
+        fr; rv:1.9.1) Gecko/20090624 Firefox/3.5
+
+.. rst-class:: response
+.. code-block:: http
+
+ Server: Apache/2
+ Date: Mon, 02 Nov 2009 22:46:26 GMT
+
+
+
+Négociation de contenu (1)
+--------------------------
+
+Le client annonce les types de contenus qu'il est capable d'accepter.
+
+.. rst-class:: request
+.. code-block:: http
+
+ Accept: text/html,application/xhtml+xml,
+         application/xml;q=0.9,*/*;q=0.8
+ Accept-Language: fr,en;q=0.5
+ Accept-Encoding: gzip,deflate
+ Accept-Charset: UTF-8,*
+
+
+.. rst-class:: response
+.. code-block:: http
+
+ Content-Type: text/html; charset=utf-8
+ Content-Location: Home.html
+ Vary: negotiate,accept
+
+
+
+Négociation de contenu (2)
+--------------------------
+
+* Si aucune représentation disponible ne peut satisfaire le client, le serveur peut retourner une code 406 *Not Acceptable*.
+
+* Il doit normalement fournir dans la réponse une liste des représensentations disponibles.
+
+* L'agent (logiciel client) est autorisé à sélectionner automatiquement l'une de ces représentations.
+
+* Cette information peut également être fournie dans l'entête de la réponse (non standard).
+
+.. rubric:: En-tête Alternates de http://www.w3.org/
+
+.. rst-class:: response
+.. code-block:: http
+
+ Alternates: {"Home.html" 1 {type text/html} {charset utf-8} {length 29813}},
+ {"Home.xhtml" 0.99 {type application/xhtml+xml} {charset utf-8} {length 29813}}
+
+
+
+Méta-données de cache (1)
+-------------------------
+
+Le serveur fournit des méta-données relatives à la représentation.
+
+.. rst-class:: response
+.. code-block:: http
+
+ Etag: "7462-477341dcfb940;89-3f26bd17a2f00"
+ Last-Modified: Sat, 31 Oct 2009 05:07:09 GMT
+
+Ces méta-données font partie de l'état du client, et sont donc censées être fournie par lui lors de requêtes ultérieures (*statelessness*).
+
+.. rst-class:: request
+.. code-block:: http
+
+ If-None-Match: "7462-477341dcfb940;89-3f26bd17a2f00"
+ If-Modified-Since: Sat, 31 Oct 2009 05:07:09 GMT
+
+Si la ressource n'a pas été modifiée, le serveur répondra par un statut 304 *Not Modified* et une réponse vide → économie.
+
+
+
+Méta-données de cache (2)
+-------------------------
+
+D'autres méta-données concernent la « cachabilité » de la représentation.
+
+.. rst-class:: response
+.. code-block:: http
+
+ Cache-Control: max-age=600
+ Expires: Mon, 02 Nov 2009 22:56:26 GMT
+
+``Cache-Control`` (introduit dans HTTP 1.1) offre plus d'expressivité que ``Expires`` (``private``, ``no-transform``...).
+
+``Cache-Control`` peut également être utilisé dans une *requête*, par exemple :
+
+* pour spécifier sa tolérance à la « vieillesse » de la réponse,
+* pour forcer un rechargement:
+
+.. rst-class:: request
+.. code-block:: http
+
+ Cache-Control: no-cache
+
+
+Méta-données de connexion
+-------------------------
+
+HTTP étant un protocole sans état, chaque requête peut être envoyée sur une nouvelle connexion TCP (ce qui était imposé par HTTP 1.0).
+
+Pour des raisons d'optimisation, le client et le serveur peuvent spécifier qu'ils souhaitent / acceptent de garder la connexion ouverte pour des requêtes ultérieures. Ceci est fait explicitement pour conserver l'auto-suffisance des requêtes.
+
+.. rst-class:: request
+.. code-block:: http
+
+ Connection: keep-alive
+ Keep-Alive: 300
+
+
+.. rst-class:: response
+.. code-block:: http
+
+ Connection: close
+
+
+Formats de données
+++++++++++++++++++
+
+XML
+---
+
+Peut-être vu comme une extension de HTML,
+autorisant n'importe quelle balise :
+
+.. code-block:: xml
+
+   <commande no="12345">
+     <client no="678-789"/>
+     <articles>
+       <article code="ab12">
+         <quantité>2</quantité>
+         <prix>10.10</prix>
+       </article>
+       <article code="cd34">
+         <quantité>7</quantité>
+         <prix>42.00</prix>
+       </article>
+     </articles>
+   </commande>
+
+JSON
+----
+
+Sous-ensemble de Javascript,
+limité à la description de données :
+
+.. code-block:: json
+
+   {
+     "no_commande": "12345",
+     "no_client": "678-789",
+     "article": [
+       {
+         "code": "ab12",
+         "quantite": 2,
+         "prix": 10.10
+       },
+       {
+         "code": "cd34",
+         "quantite": 7,
+         "prix": 42.10
+       }
+     ]
+   }

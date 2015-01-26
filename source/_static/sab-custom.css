@@ -1,0 +1,6 @@
+.request pre {
+    background-color: beige;
+}
+.response pre {
+    background-color: #CCFFCC;
+}
