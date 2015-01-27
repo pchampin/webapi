@@ -226,6 +226,8 @@ Négociation de contenu (1)
 
 Le client annonce les types de contenus qu'il est capable d'accepter.
 
+Utilisation des media types : http://www.iana.org/assignments/media-types/media-types.xhtml
+
 .. rst-class:: request
 .. code-block:: http
 
