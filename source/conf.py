@@ -272,3 +272,9 @@ slide_link_to_html = True
 slide_relative_path = "slides"
 slide_html_relative_path = ".."
 highlight_language = "js"
+
+# -- Options for Sequence diagramms ----
+
+extensions += ['sphinxcontrib.seqdiag']
+
+seqdiag_html_image_format = "svg"

@@ -4,3 +4,7 @@
 .response pre {
     background-color: #CCFFCC;
 }
+
+.slide.scrollable {
+    overflow-y: scroll;
+}
