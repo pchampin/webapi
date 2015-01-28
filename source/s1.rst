@@ -355,9 +355,14 @@ Créez un projet Java qui implémente les interfaces suivantes et effectue les b
 .. code-block:: java
 
 		
-	/**
-	 * Created by pa on 1/27/15.
-	 */
+	public interface IBlog {
+		String getURL();
+		int countPosts();
+		Iterable<IPost> iterPosts();
+		Iterable<IPost> iterPosts(String search);
+		IPost createPost(String name, String description);
+	}
+
 	public interface IPost {
 		String getURL();
 		String getName();
@@ -368,14 +373,6 @@ Créez un projet Java qui implémente les interfaces suivantes et effectue les b
 	}
 
 
-	/**
-	 * Created by pa on 1/27/15.
-	 */
-	public interface IList {
-		Iterable<IPost> iterPosts();
-		Iterable<IPost> iterPosts(String search);
-		IPost createPost(String name, String description);
-	}
 
 
 
