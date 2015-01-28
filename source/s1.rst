@@ -335,6 +335,22 @@ Pour des raisons d'optimisation, le client et le serveur peuvent spécifier qu'i
  Connection: close
 
 
+.. rst-class:: exercice
+
+À vous de jouer
+---------------
+
+* https://hc.apache.org/httpcomponents-client-ga
+
+  - ou `via maven`__
+
+* http://liris.cnrs.fr/~pchampin/tmp/apiweb/blogephem/
+
+  - la documentation de l'API est donnée sur cette page
+
+__ http://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient/4.3.6
+
+
 Formats de données
 ++++++++++++++++++
 
