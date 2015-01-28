@@ -350,6 +350,36 @@ Pour des raisons d'optimisation, le client et le serveur peuvent spécifier qu'i
 
 __ http://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient/4.3.6
 
+Créez un projet Java qui implémente les interfaces suivantes et effectue les bonnes requêtes HTTP pour interagir avec l'API du blog :
+
+.. code-block:: java
+
+		
+	/**
+	 * Created by pa on 1/27/15.
+	 */
+	public interface IPost {
+		String getURL();
+		String getName();
+		String getDescription();
+		void setName(String newName);
+		void setDescription(String newDescription);
+		void delete();
+	}
+
+
+	/**
+	 * Created by pa on 1/27/15.
+	 */
+	public interface IList {
+		Iterable<IPost> iterPosts();
+		Iterable<IPost> iterPosts(String search);
+		IPost createPost(String name, String description);
+	}
+
+
+
+
 
 Formats de données
 ++++++++++++++++++
