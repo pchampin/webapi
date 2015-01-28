@@ -344,7 +344,7 @@ Pour des raisons d'optimisation, le client et le serveur peuvent spécifier qu'i
 
   - ou `via maven`__
 
-* http://liris.cnrs.fr/~pchampin/tmp/apiweb/blogephem/
+* http://dsi-liris-silex.univ-lyon1.fr/apiweb/blogephem/
 
   - la documentation de l'API est donnée sur cette page
 
