@@ -431,7 +431,7 @@ limité à la description de données :
 Cache
 +++++
 
-TODO
+.. TODO intro ?
 
 .. rst-class:: scrollable
 
@@ -516,7 +516,7 @@ Durée de validité
       C [label=Server]
 
       A -> B -> C [label="GET /foo"] ;
-      B <- C [label="200 OK\Etag: \"abc\"\nCache-control: max-age=10",
+      B <- C [label="200 OK\nEtag: \"abc\"\nCache-control: max-age=10",
               leftnote="store entity\nwith etag\nand max-age"];
       A <- B [label="200 OK\nEtag: \"abc\""] ;
       === 1s ===
@@ -530,3 +530,20 @@ Durée de validité
       A <- B [note="retrieve entity\nfrom cache",
               label="200 OK\nEtag: \"abc\""] ;
    }
+
+Utilisation
+-----------
+
+Installation maven__
+
+__ http://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient-cache
+
+.. code-block:: java
+
+        CacheConfig cacheConfig = CacheConfig.custom()
+                .setMaxCacheEntries(1000)
+                .setMaxObjectSize(8192)
+                .build();
+        CloseableHttpClient cachingClient = CachingHttpClients.custom()
+                .setCacheConfig(cacheConfig)
+                .build();
