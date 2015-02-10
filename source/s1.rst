@@ -372,9 +372,154 @@ Créez un projet Java qui implémente les interfaces suivantes et effectue les b
 		void delete();
 	}
 
+.. ifnotslides::
 
+.. _quickstart:
 
+ Pour vous aider à prendre en main la bibliothèque Apache HTTP Components,
+ et pour mieux comprendre ce qu'on attend de vous,
+ vous trouverez ci-dessous
+ trois programmes effectuant directement les requêtes sur le serveur,
+ complété chaque fois par un programme équivalent
+ utilisant les classes qu'on vous demande d'écrire.
 
+ .. rubric:: Afficher le titre et le contenu d'un billet donné
+
+ .. code-block:: java
+
+    public static void exemple1a() throws Exception {
+        CloseableHttpClient cli = HttpClients.createDefault();
+        HttpGet hget = new HttpGet(
+                "http://dsi-liris-silex.univ-lyon1.fr/apiweb/blogephem/hello");
+        CloseableHttpResponse resp = cli.execute(hget);
+        BufferedReader br = null;
+        try {
+            if (resp.getStatusLine().getStatusCode() / 100 != 2) {
+                // la requête HTTP a échoué
+                throw new RuntimeException(resp.getStatusLine().toString());
+            }
+            br = new BufferedReader(new InputStreamReader(
+                    resp.getEntity().getContent(), "utf-8"));
+            String name = br.readLine();
+            String descr = "";
+            String line;
+            while( (line = br.readLine()) != null)
+            {
+                descr += line;
+            }
+
+            System.out.println("Titre: " + name);
+            System.out.println("Contenu:\n" + descr + "\n--------");
+        }
+        finally {
+            if (br != null) br.close();
+            resp.close();
+        }
+    }
+
+ Et en utilisant vos classes :
+
+ .. code-block:: java
+
+    public static void exemple1b() throws Exception {
+        Post p = new Post(
+                "http://dsi-liris-silex.univ-lyon1.fr/apiweb/blogephem/hello");
+        System.out.println("Titre: " + p.getName());
+        System.out.println("Contenu:\n" + p.getDescription() + "\n--------");
+    }
+
+ .. rubric:: Afficher les titres de tous les billets du blog
+
+ .. code-block:: java
+
+    public static void exemple2a() throws Exception {
+        CloseableHttpClient cli = HttpClients.createDefault();
+        HttpGet hget1 = new HttpGet(
+                "http://dsi-liris-silex.univ-lyon1.fr/apiweb/blogephem/");
+        CloseableHttpResponse resp1 = cli.execute(hget1);
+        BufferedReader br1 = new BufferedReader(new InputStreamReader(
+                resp1.getEntity().getContent(), "utf-8"));
+        String line;
+        while( (line = br1.readLine()) != null)
+        {
+            HttpGet hget2 = new HttpGet(line);
+            CloseableHttpResponse resp2 = cli.execute(hget2);
+            BufferedReader br2 = new BufferedReader(new InputStreamReader(
+                    resp2.getEntity().getContent(), "utf-8"));
+            String name = br2.readLine();
+            br2.close();
+            resp2.close();
+
+            System.out.println(name);
+        }
+        br1.close();
+        resp1.close();
+    }
+
+ Et en utilisant vos classes :
+
+ .. code-block:: java
+
+    public static void exemple2b() {
+        Blog b = new Blog(
+                "http://dsi-liris-silex.univ-lyon1.fr/apiweb/blogephem/");
+        for(IPost p: b.iterPosts()) {
+            System.out.println(p.getName());
+        }
+    }
+
+ .. rubric:: Ajouter une ligne à un billet donné
+
+ .. code-block:: java
+
+    public static void exemple3a() throws Exception {
+        String url =
+                "http://dsi-liris-silex.univ-lyon1.fr/apiweb/blogephem/hello";
+        CloseableHttpClient cli = HttpClients.createDefault();
+        HttpGet hget = new HttpGet(url);
+        CloseableHttpResponse resp = cli.execute(hget);
+        BufferedReader br = new BufferedReader(new InputStreamReader(
+                    resp.getEntity().getContent(), "utf-8"));
+
+        String name = br.readLine(); // ignore le titre
+        String descr = "";
+        String line;
+        while( (line = br.readLine()) != null)
+        {
+            descr += line;
+        }
+        br.close();
+        resp.close();
+
+        String newdescr = descr + "\npchampin was here!\n";
+
+        HttpPut hput = new HttpPut(url);
+        hput.setEntity(new StringEntity(name + "\n" + newdescr, "UTF-8"));
+        resp = cli.execute(hput);
+        if (resp.getStatusLine().getStatusCode() / 100 == 2) {
+            System.out.println("Modification effectuée");
+        } else {
+            System.out.println("Un problème a eu lieu");
+        }
+        EntityUtils.consume(resp.getEntity()); // lit les données jusqu'au bout...
+        resp.close(); // ... pour pouvoir fermer la réponse
+    }
+
+ Et en utilisant vos classes :
+
+ .. code-block:: java
+
+    public static void exemple3b() {
+        Post p = new Post(
+                "http://dsi-liris-silex.univ-lyon1.fr/apiweb/blogephem/hello");
+        try {
+            p.setDescription(p.getDescription() + "\n pchampin was here!\n");
+            System.out.println("Modification effectuée");
+        }
+        catch (Exception ex) {
+            System.out.println("Un problème a eu lieu");
+        }
+    }
 
 
 
@@ -547,3 +692,10 @@ __ http://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient-cache
         CloseableHttpClient cachingClient = CachingHttpClients.custom()
                 .setCacheConfig(cacheConfig)
                 .build();
+
+.. TODO
+  - plutôt que IPost, appeler la classe IArticle,
+    parce que le terme POST est fortement connoté en HTTP :-/
+  - aligner la terminologie (titre-conenu, name-description)
+    entre le sujet et la doc en ligne de blogephem...
+  - repporter ces modifications sur les 3 exemples
