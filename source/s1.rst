@@ -758,4 +758,28 @@ __ http://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient-cache
     parce que le terme POST est fortement connoté en HTTP :-/
   - aligner la terminologie (titre-contenu, name-description)
     entre le sujet et la doc en ligne de blogephem...
-  - repporter ces modifications sur les 3 exemples
+  - reporter ces modifications sur les 3 exemples
+
+.. TODO
+  - démarche plus progressive
+
+  - commencer par une explication de texte sur le code
+    HttpClient : boite aux lettres
+    HttpGet / HttpPut : envelope (avec une adresse)
+    setEntity : mettre un message dans l'envelope
+    execute : poster l'envelope
+    getStatusLine : 
+
+  - expliquer la structure d'un échange HTTP avec cette métaphore
+    (mais montrer la vrai requête, pour démystifier un peu)
+
+  - commencer avec un service simple :
+    on poste un texte qui va défiler sur l'écran
+
+  - ensuite on peut lui donner des propriétés CSS
+    (lignes suivantes du texte ?)
+
+  - puis un GET pour voir les messages en attente
+
+  - puis un DELETE pour effacer un message précédemment créé
+    (suppose de récupérer le champs Location)
