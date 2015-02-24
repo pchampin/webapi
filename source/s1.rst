@@ -559,7 +559,7 @@ limité à la description de données :
    {
      "no_commande": "12345",
      "no_client": "678-789",
-     "article": [
+     "articles": [
        {
          "code": "ab12",
          "quantite": 2,
@@ -572,6 +572,66 @@ limité à la description de données :
        }
      ]
    }
+
+`Pour en savoir plus`__
+
+__ http://champin.net/enseignement/intro-js/s3.html#json
+
+JSON en Java
+````````````
+
+Bibliothèque GSON_ (installation maven__).
+
+.. _GSON: https://code.google.com/p/google-gson/
+
+__ http://mvnrepository.com/artifact/com.google.code.gson/gson
+
+.. code-block:: java
+
+        Gson gson = new Gson();
+        
+        // chargement d'un objet
+        Map<String, Object> obj =
+                (Map<String, Object>) gson.fromJson(jsonstr, Object.class);
+        String no_commande = (String) obj.get("no_commande");
+        List<Map<String, Object>> articles =
+                (List<Map<String, Object>>) obj.get("articles");
+        String code = (String) articles.get(0).get("code");
+        double quantite = (Double) articles.get(0).get("quantite");
+        double prix= (Double) articles.get(0).get("prix");
+
+        // sérialisation d'un objet
+        String jsontxt2 = gson.toJson(obj);
+
+.. nextslide::
+
+On peut également définir des classes personnalisées...
+
+.. code-block:: java
+
+    class Article {
+        String code;
+        int quantite;
+        double prix;
+    }
+    class Commande {
+        String no_commande, no_client;
+        List<Article> articles;
+    }
+
+.. nextslide::
+
+\... et les utiliser pour simplifier l'écriture.
+
+.. code-block:: java
+
+        Gson gson = new Gson();
+        Commande cmd = gson.fromJson(jsonstr, Commande.class);
+        System.out.println(cmd);
+        String noCommande = cmd.no_commande;
+        String code = cmd.articles.get(0).code;
+        int quantite = cmd.articles.get(0).quantite;
+        double prix= cmd.articles.get(0).prix;
 
 Cache
 +++++
@@ -676,8 +736,8 @@ Durée de validité
               label="200 OK\nEtag: \"abc\""] ;
    }
 
-Utilisation
------------
+Utilisation avec Apache Components
+----------------------------------
 
 Installation maven__
 
@@ -696,6 +756,6 @@ __ http://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient-cache
 .. TODO
   - plutôt que IPost, appeler la classe IArticle,
     parce que le terme POST est fortement connoté en HTTP :-/
-  - aligner la terminologie (titre-conenu, name-description)
+  - aligner la terminologie (titre-contenu, name-description)
     entre le sujet et la doc en ligne de blogephem...
   - repporter ces modifications sur les 3 exemples
