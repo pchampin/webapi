@@ -8,9 +8,11 @@ Version: |version| -- Ce support de cours est **en travaux**.
 .. include:: credits.rst.inc
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
    s1
+
+..
    s2
    s3
    liens
