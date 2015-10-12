@@ -783,3 +783,34 @@ __ http://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient-cache
 
   - puis un DELETE pour effacer un message précédemment créé
     (suppose de récupérer le champs Location)
+
+APIs Web rélles
++++++++++++++++
+
+Facebook
+--------
+
+* Documentation : https://developers.facebook.com/docs/graph-api
+* Point d'entrée : http://graph.facebook.com/v2.2/
+* Interface d'exploration : https://developers.facebook.com/tools/explorer
+
+Wikipedia (MediaWiki)
+---------------------
+
+* Documentation : http://en.wikipedia.org/w/api.php?action=help
+* Point d'entrée : http://en.wikipedia.org/w/api.php
+* Exemples d'utilisation : dans la documentation
+
+OpenStreetMap
+-------------
+
+* Documentation : http://wiki.openstreetmap.org/wiki/API
+* Point d'entrée : http://api.openstreetmap.org/api/0.6/
+* Base de test : http://api06.dev.openstreetmap.org/
+
+
+Interface générique d'accès aux services
+----------------------------------------
+
+* Rest Client (Firefox) : https://addons.mozilla.org/en-US/firefox/addon/restclient/
+* Postman (Chrome) : http://www.getpostman.com/
