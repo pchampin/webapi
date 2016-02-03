@@ -8,16 +8,17 @@ Version: |version| -- Ce support de cours est **en travaux**.
 .. include:: credits.rst.inc
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    s1
-
-..
    s2
    s3
-   liens
+   s4
+   s6
 
-* :ref:`genindex`
+..
+   liens
+   * :ref:`genindex`
 
 ..
   .. rubric:: Remerciements

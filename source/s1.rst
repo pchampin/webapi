@@ -1,13 +1,35 @@
-Le Web : une plateforme de services
-===================================
+Séance 1 : prise en main
+========================
 
 .. include:: common.rst.inc
 .. ifslides::
 
    .. include:: credits.rst.inc
 
-Rappels
-+++++++
+Introduction
+++++++++++++
+
+Motivation
+----------
+
+Comment faire pour intégrer dans votre application :
+
+* la météo du moment à Lyon
+* une conversion Euro → Dollar (au cours en vigueur)
+
+?
+
+.. note::
+
+   Comment feriez-vous pour le faire à la main?
+
+Réponse
+-------
+
+Aller chercher l'information sur le Web.
+
+Le Web : une plateforme de services
++++++++++++++++++++++++++++++++++++
 
 Architecture Client-Serveur
 ---------------------------
@@ -24,7 +46,7 @@ Architecture Client-Serveur
   utilisé pour **exploiter** des ressources.
 
 .. figure:: _static/client-server.png
-   :height: 8ex  
+   :height: 8ex
 
    Source image http://commons.wikimedia.org/wiki/File:Client-server-model.svg
 
@@ -47,7 +69,7 @@ Rôle du serveur
   - commande passée sur un site marchant,
   - message posté sur un mur...
 
-* Ces données modifient l'état des autres ressources...
+* Ces données modifient l'état des ressources...
 
 Conclusion
 ----------
@@ -60,21 +82,47 @@ Conclusion
   permettant la consultation et la modification des ressources de tous types,
   incluant des données structurées.
 
-Structure d'une requête HTTP
-++++++++++++++++++++++++++++
+Message HTTP
+++++++++++++
 
-.. récupéré de mon cours sur REST le 26/01/2015
+Principe
+--------
 
-Exemple de requête HTTP
+HTTP est basé sur l'échange de **messages**…:
+
+* le serveur envoie un message *requête*
+* le serveur retourne un message *réponse*
+
+Chaque échange est indépendant des autres (messages auto-suffisants).
+
+Structure générale
+------------------
+
+.. image:: _static/envelope.svg
+
+Structure d'une requête
 -----------------------
 
-.. rubric:: Requête à http://www.w3.org/
+* Première ligne
+
+  - verbe
+  - identifiant local de la ressource
+  - version du protocole HTTP
+
+* En-têtes
+
+* Contenu facultatif (selon le verbe)
+
+
+Exemples de requêtes
+````````````````````
 
 .. rst-class:: request
 .. code-block:: http
+ :emphasize-lines: 1
 
- GET / HTTP/1.1
- Host: www.w3.org
+ GET /france/lyon HTTP/1.1
+ Host: meteo.example.org
  User-Agent: Mozilla/5.0 (X11; U; Linux i686;
         fr; rv:1.9.1) Gecko/20090624 Firefox/3.5
  Accept: text/html,application/xhtml+xml,
@@ -85,85 +133,100 @@ Exemple de requête HTTP
  Connection: keep-alive
  Keep-Alive: 300
 
+(pas de contenu)
+
+.. nextslide::
+
+.. rst-class:: request
+.. code-block:: http
+ :emphasize-lines: 1
+
+ POST /passer-commande HTTP/1.1
+ Host: marchand.example.org
+ User-Agent: Mozilla/5.0 (X11; U; Linux i686;
+        fr; rv:1.9.1) Gecko/20090624 Firefox/3.5
+ Accept: text/html,application/xhtml+xml,
+        application/xml;q=0.9,*/*;q=0.8
+ Accept-Language: fr,en;q=0.5
+ Accept-Encoding: gzip,deflate
+ Accept-Charset: UTF-8,*
+ Connection: keep-alive
+ Keep-Alive: 300
+ Content-Type: application/x-www-form-urlencoded
+ Content-Length: 12345
+
+ nom=PA+Champin&addresse=12+rue+Turing&articles=...
 
 
-Exemple de réponse HTTP
+Structure d'une réponse
 -----------------------
 
-.. rubric:: Réponse de http://www.w3.org/ 
+* Première ligne
 
+  - versioon du protocole HTTP
+  - code de statut
+  - libellé textuel
+
+* En-têtes
+
+* Contenu facultatif (selon le code de statut)
+
+
+Exemples de réponse
+```````````````````
 .. rst-class:: response
 .. code-block:: http
+ :emphasize-lines: 1
 
  HTTP/1.x 200 OK
- Date: Mon, 02 Nov 2009 22:46:26 GMT
+ Date: Mon, 02 Jan 2016 22:46:26 GMT
  Server: Apache/2
  Accept-Ranges: bytes
  Content-Type: text/html; charset=utf-8
  Content-Length: 29794
  Etag: "7462-477341dcfb940;89-3f26bd17a2f00"
- Last-Modified: Sat, 31 Oct 2009 05:07:09 GMT
+ Last-Modified: Mon, 02 Jan 2016 12:00:00 GMT
  Content-Location: Home.html
  Vary: negotiate,accept
  Cache-Control: max-age=600
  Expires: Mon, 02 Nov 2009 22:56:26 GMT
  Connection: close
 
- (data)                                                        ...
+ <!DOCTYPE html>
+ <html><head><title>Météo de Lyon</title>
+ ...
 
-
-
-Sémantique de la requête et de la réponse
------------------------------------------
-
-La requête consiste à appliquer un *verbe* à la ressource.
-
-* GET signifie ici « obtenir une représentation de la ressource ».
-* Le champs ``Host`` est obligatoire depuis HTTP/1.1 (car un même serveur peut
-  servir plusieurs noms de domaine).
-
-.. rst-class:: request
-.. code-block:: http
-
- GET / HTTP/1.1
- Host: www.w3.org
-
-La réponse commence par un *code de statut* numérique indiquant le résultat .
-
-* Le code est suivi d'un libellé textuel pour améliorer la lisibilité.
+.. nextslide::
 
 .. rst-class:: response
 .. code-block:: http
+ :emphasize-lines: 1
 
- HTTP/1.x 200 OK
+ HTTP/1.x 303 See also
+ Date: Mon, 02 Jan 2016 22:46:26 GMT
+ Server: Apache/2
+ Accept-Ranges: bytes
+ Location: /commande/12345
+ Connection: close
 
+ (pas de contenu)
 
-Verbes
-------
+.. nextslide::
 
-HTTP définit quatre (principaux) verbes pour la manipulation des ressources :
+.. rst-class:: response
+.. code-block:: http
+ :emphasize-lines: 1
 
-* GET : récupérer l'état de la ressource
-* PUT : attribuer l'état de la ressource
-* DELETE : supprimer la ressource
-* POST : fournir des données à la ressource
+ HTTP/1.x 404 Not Found
+ Date: Mon, 02 Jan 2016 22:46:26 GMT
+ Server: Apache/2
+ Content-Type: text/html; charset=utf-8
+ Content-Length: 2979
+ Connection: close
 
-Les requêtes POST et PUT supposent un envoi de données (*payload*) au serveur. Ces données peuvent être de n'importe quel type, qui sera spécifié dans la requête (``Content-Type``).
-
-
-Verbes (suite)
-``````````````
-
-Certains auteurs préfèrent caractériser les verbes HTTP
-simplement par rapport à leurs propriétés :
-
-* GET : idempotente, sans effet de bord
-* PUT : idempotente, avec effet de bord
-* DELETE : idempotente, avec effet de bord
-* POST : non-idempotente, avec effet de bord
-
-qui conditionnent le comportement des composants intermédiaires.
-
+ <!DOCTYPE html>
+ <html><head><title>Cette ressource n'existe pas</title>
+ ...
 
 Codes de statut
 ---------------
@@ -174,643 +237,80 @@ HTTP définit 40 codes de statut, répartis en cinq catérogires :
    :header-rows: 1
 
    * - Catégories
-
      - Exemples
-
    * - 1xx : Information
-   
      - 100 Continue
-   
    * - 2xx : Succès
-   
      - 200 OK
-   
    * - 3xx : Redirection
-   
      - 301 Moved Permanently
-   
    * - 4xx : Erreur client
-   
      - 404 Not Found, 401 Unauthorized
-   
    * - 5xx : Erreur serveur
-   
      - 500 Internal Server Error
-   
 
+HTTP en Java
+++++++++++++
 
-Identification
+Classes utiles
 --------------
 
-Le client et le serveur donnent des indications sur leur identité et leur
-contexte.
-
-* Utile notamment pour les terminaux mobiles.
-
-.. rst-class:: request
-.. code-block:: http
-
- User-Agent: Mozilla/5.0 (X11; U; Linux i686;
-        fr; rv:1.9.1) Gecko/20090624 Firefox/3.5
-
-.. rst-class:: response
-.. code-block:: http
-
- Server: Apache/2
- Date: Mon, 02 Nov 2009 22:46:26 GMT
-
-
-
-Négociation de contenu (1)
---------------------------
-
-Le client annonce les types de contenus qu'il est capable d'accepter.
-
-Utilisation des media types : http://www.iana.org/assignments/media-types/media-types.xhtml
-
-.. rst-class:: request
-.. code-block:: http
-
- Accept: text/html,application/xhtml+xml,
-         application/xml;q=0.9,*/*;q=0.8
- Accept-Language: fr,en;q=0.5
- Accept-Encoding: gzip,deflate
- Accept-Charset: UTF-8,*
-
-
-.. rst-class:: response
-.. code-block:: http
-
- Content-Type: text/html; charset=utf-8
- Content-Location: Home.html
- Vary: negotiate,accept
-
-
-
-Négociation de contenu (2)
---------------------------
-
-* Si aucune représentation disponible ne peut satisfaire le client, le serveur peut retourner une code 406 *Not Acceptable*.
-
-* Il doit normalement fournir dans la réponse une liste des représensentations disponibles.
-
-* L'agent (logiciel client) est autorisé à sélectionner automatiquement l'une de ces représentations.
-
-* Cette information peut également être fournie dans l'entête de la réponse (non standard).
-
-.. rubric:: En-tête Alternates de http://www.w3.org/
-
-.. rst-class:: response
-.. code-block:: http
-
- Alternates: {"Home.html" 1 {type text/html} {charset utf-8} {length 29813}},
- {"Home.xhtml" 0.99 {type application/xhtml+xml} {charset utf-8} {length 29813}}
-
-
-
-Méta-données de cache (1)
--------------------------
-
-Le serveur fournit des méta-données relatives à la représentation.
-
-.. rst-class:: response
-.. code-block:: http
-
- Etag: "7462-477341dcfb940;89-3f26bd17a2f00"
- Last-Modified: Sat, 31 Oct 2009 05:07:09 GMT
-
-Ces méta-données font partie de l'état du client, et sont donc censées être fournie par lui lors de requêtes ultérieures (*statelessness*).
-
-.. rst-class:: request
-.. code-block:: http
-
- If-None-Match: "7462-477341dcfb940;89-3f26bd17a2f00"
- If-Modified-Since: Sat, 31 Oct 2009 05:07:09 GMT
-
-Si la ressource n'a pas été modifiée, le serveur répondra par un statut 304 *Not Modified* et une réponse vide → économie.
-
-
-
-Méta-données de cache (2)
--------------------------
-
-D'autres méta-données concernent la « cachabilité » de la représentation.
-
-.. rst-class:: response
-.. code-block:: http
-
- Cache-Control: max-age=600
- Expires: Mon, 02 Nov 2009 22:56:26 GMT
-
-``Cache-Control`` (introduit dans HTTP 1.1) offre plus d'expressivité que ``Expires`` (``private``, ``no-transform``...).
-
-``Cache-Control`` peut également être utilisé dans une *requête*, par exemple :
-
-* pour spécifier sa tolérance à la « vieillesse » de la réponse,
-* pour forcer un rechargement:
-
-.. rst-class:: request
-.. code-block:: http
-
- Cache-Control: no-cache
-
-
-Méta-données de connexion
--------------------------
-
-HTTP étant un protocole sans état, chaque requête peut être envoyée sur une nouvelle connexion TCP (ce qui était imposé par HTTP 1.0).
-
-Pour des raisons d'optimisation, le client et le serveur peuvent spécifier qu'ils souhaitent / acceptent de garder la connexion ouverte pour des requêtes ultérieures. Ceci est fait explicitement pour conserver l'auto-suffisance des requêtes.
-
-.. rst-class:: request
-.. code-block:: http
-
- Connection: keep-alive
- Keep-Alive: 300
-
-
-.. rst-class:: response
-.. code-block:: http
-
- Connection: close
-
-
-.. rst-class:: exercice
-
-À vous de jouer
----------------
-
-* https://hc.apache.org/httpcomponents-client-ga
-
-  - ou `via maven`__
-
-* http://dsi-liris-silex.univ-lyon1.fr/apiweb/blogephem/
-
-  - la documentation de l'API est donnée sur cette page
-
-__ http://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient/4.3.6
-
-Créez un projet Java qui implémente les interfaces suivantes et effectue les bonnes requêtes HTTP pour interagir avec l'API du blog :
+* `java.net.URL <http://docs.oracle.com/javase/7/docs/api/java/net/URL.html>`_
+* `java.net.HttpURLConnection <http://docs.oracle.com/javase/7/docs/api/java/net/HttpURLConnection.html>`_
+
+Exemple
+-------
 
 .. code-block:: java
 
-		
-	public interface IBlog {
-		String getURL();
-		int countPosts();
-		Iterable<IPost> iterPosts();
-		Iterable<IPost> iterPosts(String search);
-		IPost createPost(String name, String description);
-	}
-
-	public interface IPost {
-		String getURL();
-		String getName();
-		String getDescription();
-		void setName(String newName);
-		void setDescription(String newDescription);
-		void delete();
-	}
-
-.. ifnotslides::
-
-.. _quickstart:
-
- Pour vous aider à prendre en main la bibliothèque Apache HTTP Components,
- et pour mieux comprendre ce qu'on attend de vous,
- vous trouverez ci-dessous
- trois programmes effectuant directement les requêtes sur le serveur,
- complété chaque fois par un programme équivalent
- utilisant les classes qu'on vous demande d'écrire.
-
- .. rubric:: Afficher le titre et le contenu d'un billet donné
-
- .. code-block:: java
-
-    public static void exemple1a() throws Exception {
-        CloseableHttpClient cli = HttpClients.createDefault();
-        HttpGet hget = new HttpGet(
-                "http://dsi-liris-silex.univ-lyon1.fr/apiweb/blogephem/hello");
-        CloseableHttpResponse resp = cli.execute(hget);
-        BufferedReader br = null;
-        try {
-            if (resp.getStatusLine().getStatusCode() / 100 != 2) {
-                // la requête HTTP a échoué
-                throw new RuntimeException(resp.getStatusLine().toString());
-            }
-            br = new BufferedReader(new InputStreamReader(
-                    resp.getEntity().getContent(), "utf-8"));
-            String name = br.readLine();
-            String descr = "";
-            String line;
-            while( (line = br.readLine()) != null)
-            {
-                descr += line;
-            }
-
-            System.out.println("Titre: " + name);
-            System.out.println("Contenu:\n" + descr + "\n--------");
-        }
-        finally {
-            if (br != null) br.close();
-            resp.close();
-        }
-    }
-
- Et en utilisant vos classes :
-
- .. code-block:: java
-
-    public static void exemple1b() throws Exception {
-        Post p = new Post(
-                "http://dsi-liris-silex.univ-lyon1.fr/apiweb/blogephem/hello");
-        System.out.println("Titre: " + p.getName());
-        System.out.println("Contenu:\n" + p.getDescription() + "\n--------");
-    }
-
- .. rubric:: Afficher les titres de tous les billets du blog
-
- .. code-block:: java
-
-    public static void exemple2a() throws Exception {
-        CloseableHttpClient cli = HttpClients.createDefault();
-        HttpGet hget1 = new HttpGet(
-                "http://dsi-liris-silex.univ-lyon1.fr/apiweb/blogephem/");
-        CloseableHttpResponse resp1 = cli.execute(hget1);
-        BufferedReader br1 = new BufferedReader(new InputStreamReader(
-                resp1.getEntity().getContent(), "utf-8"));
-        String line;
-        while( (line = br1.readLine()) != null)
-        {
-            HttpGet hget2 = new HttpGet(line);
-            CloseableHttpResponse resp2 = cli.execute(hget2);
-            BufferedReader br2 = new BufferedReader(new InputStreamReader(
-                    resp2.getEntity().getContent(), "utf-8"));
-            String name = br2.readLine();
-            br2.close();
-            resp2.close();
-
-            System.out.println(name);
-        }
-        br1.close();
-        resp1.close();
-    }
-
- Et en utilisant vos classes :
-
- .. code-block:: java
-
-    public static void exemple2b() {
-        Blog b = new Blog(
-                "http://dsi-liris-silex.univ-lyon1.fr/apiweb/blogephem/");
-        for(IPost p: b.iterPosts()) {
-            System.out.println(p.getName());
-        }
-    }
-
- .. rubric:: Ajouter une ligne à un billet donné
-
- .. code-block:: java
-
-    public static void exemple3a() throws Exception {
-        String url =
-                "http://dsi-liris-silex.univ-lyon1.fr/apiweb/blogephem/hello";
-        CloseableHttpClient cli = HttpClients.createDefault();
-        HttpGet hget = new HttpGet(url);
-        CloseableHttpResponse resp = cli.execute(hget);
-        BufferedReader br = new BufferedReader(new InputStreamReader(
-                    resp.getEntity().getContent(), "utf-8"));
-
-        String name = br.readLine(); // ignore le titre
-        String descr = "";
-        String line;
-        while( (line = br.readLine()) != null)
-        {
-            descr += line;
-        }
-        br.close();
-        resp.close();
-
-        String newdescr = descr + "\npchampin was here!\n";
-
-        HttpPut hput = new HttpPut(url);
-        hput.setEntity(new StringEntity(name + "\n" + newdescr, "UTF-8"));
-        resp = cli.execute(hput);
-        if (resp.getStatusLine().getStatusCode() / 100 == 2) {
-            System.out.println("Modification effectuée");
-        } else {
-            System.out.println("Un problème a eu lieu");
-        }
-        EntityUtils.consume(resp.getEntity()); // lit les données jusqu'au bout...
-        resp.close(); // ... pour pouvoir fermer la réponse
-    }
-
- Et en utilisant vos classes :
-
- .. code-block:: java
-
-    public static void exemple3b() {
-        Post p = new Post(
-                "http://dsi-liris-silex.univ-lyon1.fr/apiweb/blogephem/hello");
-        try {
-            p.setDescription(p.getDescription() + "\n pchampin was here!\n");
-            System.out.println("Modification effectuée");
-        }
-        catch (Exception ex) {
-            System.out.println("Un problème a eu lieu");
-        }
-    }
-
-
-
-Formats de données
-++++++++++++++++++
-
-XML
----
-
-Peut-être vu comme une extension de HTML,
-autorisant n'importe quelle balise :
-
-.. code-block:: xml
-
-   <commande no="12345">
-     <client no="678-789"/>
-     <articles>
-       <article code="ab12">
-         <quantité>2</quantité>
-         <prix>10.10</prix>
-       </article>
-       <article code="cd34">
-         <quantité>7</quantité>
-         <prix>42.00</prix>
-       </article>
-     </articles>
-   </commande>
-
-JSON
-----
-
-Sous-ensemble de Javascript,
-limité à la description de données :
-
-.. code-block:: json
-
-   {
-     "no_commande": "12345",
-     "no_client": "678-789",
-     "articles": [
-       {
-         "code": "ab12",
-         "quantite": 2,
-         "prix": 10.10
-       },
-       {
-         "code": "cd34",
-         "quantite": 7,
-         "prix": 42.10
-       }
-     ]
-   }
-
-`Pour en savoir plus`__
-
-__ http://champin.net/enseignement/intro-js/s3.html#json
-
-JSON en Java
-````````````
-
-Bibliothèque GSON_ (installation maven__).
-
-.. _GSON: https://code.google.com/p/google-gson/
-
-__ http://mvnrepository.com/artifact/com.google.code.gson/gson
-
-.. code-block:: java
-
-        Gson gson = new Gson();
-        
-        // chargement d'un objet
-        Map<String, Object> obj =
-                (Map<String, Object>) gson.fromJson(jsonstr, Object.class);
-        String no_commande = (String) obj.get("no_commande");
-        List<Map<String, Object>> articles =
-                (List<Map<String, Object>>) obj.get("articles");
-        String code = (String) articles.get(0).get("code");
-        double quantite = (Double) articles.get(0).get("quantite");
-        double prix= (Double) articles.get(0).get("prix");
-
-        // sérialisation d'un objet
-        String jsontxt2 = gson.toJson(obj);
-
-.. nextslide::
-
-On peut également définir des classes personnalisées...
-
-.. code-block:: java
-
-    class Article {
-        String code;
-        int quantite;
-        double prix;
-    }
-    class Commande {
-        String no_commande, no_client;
-        List<Article> articles;
-    }
-
-.. nextslide::
-
-\... et les utiliser pour simplifier l'écriture.
-
-.. code-block:: java
-
-        Gson gson = new Gson();
-        Commande cmd = gson.fromJson(jsonstr, Commande.class);
-        System.out.println(cmd);
-        String noCommande = cmd.no_commande;
-        String code = cmd.articles.get(0).code;
-        int quantite = cmd.articles.get(0).quantite;
-        double prix= cmd.articles.get(0).prix;
-
-Cache
-+++++
-
-.. TODO intro ?
-
-.. rst-class:: scrollable
-
-ETag
-----
-
-.. seqdiag::
-
-   seqdiag {
-      A [label=Client]
-      B [label=Server]
-
-      A  -> B [label="GET /foo"] ;
-      A <-  B [label="200 OK\nEtag: \"abc\""] ;
-      A  -> B [label="GET /foo\nIf-none-match: \"abc\""] ;
-      A <-- B [label="304 Not Modified"] ;
-      ... Resource changes ...
-      A  -> B [label="GET /foo\nIf-none-match: \"abc\""] ;
-      A <-  B [label="200 OK\nEtag: \"cde\""] ;
-   }
-
-Premier échange
----------------
-
-.. seqdiag::
-
-   seqdiag {
-      A [label=Client]
-      B [label=Cache]
-      C [label=Server]
-
-      A -> B -> C [label="GET /foo"] ;
-      B <- C [label="200 OK\nEtag: \"abc\"",
-              leftnote="store entity\nwith etag"] ;
-      A <- B [label="200 OK\nEtag: \"abc\""] ;
-   }
-
-Échange suivant
----------------
-
-.. seqdiag::
-
-   seqdiag {
-      A [label=Client]
-      B [label=Cache]
-      C [label=Server]
-
-      A -> B [label="GET /foo"] ;
-      B -> C [label="GET /foo\nIf-none-match: \"abc\""] ;
-      B <-- C [label="304 Not Modified"] ;
-      A <- B [note="retrieve entity\nfrom cache",
-              label="200 OK\nEtag: \"abc\""] ;
-   }
-
-Après modification
-------------------
-
-.. seqdiag::
-
-   seqdiag {
-      A [label=Client]
-      B [label=Cache]
-      C [label=Server]
-
-      A -> B [label="GET /foo"] ;
-      B -> C [label="GET /foo\nIf-none-match: \"abc\""] ;
-      B <- C [label="200 OK\nEtag: \"cde\"",
-              leftnote="update entity\nand etag"];
-      A <- B [label="200 OK\nEtag: \"cde\""] ;
-   }
-
-.. rst-class:: scrollable
-
-Durée de validité
------------------
-
-.. seqdiag::
-
-   seqdiag {
-      A [label=Client]
-      B [label=Cache]
-      C [label=Server]
-
-      A -> B -> C [label="GET /foo"] ;
-      B <- C [label="200 OK\nEtag: \"abc\"\nCache-control: max-age=10",
-              leftnote="store entity\nwith etag\nand max-age"];
-      A <- B [label="200 OK\nEtag: \"abc\""] ;
-      === 1s ===
-      A -> B [label="GET /foo", note="cached entity\nis up-to-date"] ;
-      A <- B [label="200 OK\nEtag: \"abc\""] ;
-      === 20s ===
-      A -> B [label="GET /foo", note="cached entity\nhas expired"] ;
-      B -> C [label="GET /foo\nIf-none-match: \"abc\""] ;
-      B <-- C [label="304 Not Modified\nCache-control: max-age=10",
-               leftnote="update max-age"] ;
-      A <- B [note="retrieve entity\nfrom cache",
-              label="200 OK\nEtag: \"abc\""] ;
-   }
-
-Utilisation avec Apache Components
-----------------------------------
-
-Installation maven__
-
-__ http://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient-cache
-
-.. code-block:: java
-
-        CacheConfig cacheConfig = CacheConfig.custom()
-                .setMaxCacheEntries(1000)
-                .setMaxObjectSize(8192)
-                .build();
-        CloseableHttpClient cachingClient = CachingHttpClients.custom()
-                .setCacheConfig(cacheConfig)
-                .build();
-
-.. TODO
-  - plutôt que IPost, appeler la classe IArticle,
-    parce que le terme POST est fortement connoté en HTTP :-/
-  - aligner la terminologie (titre-contenu, name-description)
-    entre le sujet et la doc en ligne de blogephem...
-  - reporter ces modifications sur les 3 exemples
-
-.. TODO
-  - démarche plus progressive
-
-  - commencer par une explication de texte sur le code
-    HttpClient : boite aux lettres
-    HttpGet / HttpPut : envelope (avec une adresse)
-    setEntity : mettre un message dans l'envelope
-    execute : poster l'envelope
-    getStatusLine : 
-
-  - expliquer la structure d'un échange HTTP avec cette métaphore
-    (mais montrer la vrai requête, pour démystifier un peu)
-
-  - commencer avec un service simple :
-    on poste un texte qui va défiler sur l'écran
-
-  - ensuite on peut lui donner des propriétés CSS
-    (lignes suivantes du texte ?)
-
-  - puis un GET pour voir les messages en attente
-
-  - puis un DELETE pour effacer un message précédemment créé
-    (suppose de récupérer le champs Location)
-
-APIs Web rélles
-+++++++++++++++
-
-Facebook
---------
-
-* Documentation : https://developers.facebook.com/docs/graph-api
-* Point d'entrée : http://graph.facebook.com/v2.2/
-* Interface d'exploration : https://developers.facebook.com/tools/explorer
-
-Wikipedia (MediaWiki)
----------------------
-
-* Documentation : http://en.wikipedia.org/w/api.php?action=help
-* Point d'entrée : http://en.wikipedia.org/w/api.php
-* Exemples d'utilisation : dans la documentation
-
-OpenStreetMap
+        // construction de la requête
+        URL url = new URL("http://meteo.example.org/france/lyon");
+        HttpURLConnection cx = (HttpURLConnection) url.openConnection();
+        cx.setRequestMethod("GET"); // facultatif, c'est la valeur par défaut
+        cx.addRequestProperty("User-Agent", "My super app V0.1");
+
+        // récupération de la réponse
+        cx.connect();
+        int status = cx.getResponseCode();
+        String contentType = cx.getHeaderField("content-type");
+        OutputStream body = cx.getOutputStream();
+
+
+Votre travail
++++++++++++++
+
+Votre travail
 -------------
 
-* Documentation : http://wiki.openstreetmap.org/wiki/API
-* Point d'entrée : http://api.openstreetmap.org/api/0.6/
-* Base de test : http://api06.dev.openstreetmap.org/
+Écrivez un programme qui, étant donné une URL,
 
+#. détermine si la ressource existe,
 
-Interface générique d'accès aux services
-----------------------------------------
+#. détermine le nombre de liens (``src`` ou ``href``) que contient la page,
 
-* Rest Client (Firefox) : https://addons.mozilla.org/en-US/firefox/addon/restclient/
-* Postman (Chrome) : http://www.getpostman.com/
+#. détermine si la page contient des liens brisés...
+
+.. hint::
+
+   Pour extraire les URLs des liens,
+   il pourra utiliser l'`expression régulière`__ suivante :
+   ``(src|href)="([^"]*)"``
+   (`exemple de mise en œuvre`__).
+
+__ https://docs.oracle.com/javase/7/docs/api/java/util/regex/package-summary.html
+__ http://docs.oracle.com/javase/tutorial/essential/regex/test_harness.html
+
+Proxy Lyon 1
+------------
+
+Sur le réseau de l'université,
+vos requêtes HTTP doivent passer à travers un serveur appelé *proxy*.
+
+Pour ce faire,
+vous devez créer une instance de ``java.net.Proxy`` et la passer en paramètre de ``openConnection`` comme ci-dessous:
+
+.. code-block:: java
+
+   Proxy proxy = new Proxy(Proxy.Type.HTTP,
+                           new InetSocketAddress("proxy.univ-lyon1.fr", 3128));
+   conn = url.openConnection(proxy);

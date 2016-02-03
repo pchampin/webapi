@@ -1,0 +1,29 @@
+Séance 6 : APIs Web existantes
+==============================
+
+.. include:: common.rst.inc
+.. ifslides::
+
+APIs Web rélles
++++++++++++++++
+
+Facebook
+--------
+
+* Documentation : https://developers.facebook.com/docs/graph-api
+* Point d'entrée : http://graph.facebook.com/v2.2/
+* Interface d'exploration : https://developers.facebook.com/tools/explorer
+
+Wikipedia (MediaWiki)
+---------------------
+
+* Documentation : http://en.wikipedia.org/w/api.php?action=help
+* Point d'entrée : http://en.wikipedia.org/w/api.php
+* Exemples d'utilisation : dans la documentation
+
+OpenStreetMap
+-------------
+
+* Documentation : http://wiki.openstreetmap.org/wiki/API
+* Point d'entrée : http://api.openstreetmap.org/api/0.6/
+* Base de test : http://api06.dev.openstreetmap.org/

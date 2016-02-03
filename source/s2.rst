@@ -1,9 +1,186 @@
-:orphan:
-
-S2
-====
+Séance 2 : formats de données
+=============================
 
 .. include:: common.rst.inc
 .. ifslides::
 
    .. include:: credits.rst.inc
+
+Introduction
+++++++++++++
+
+Motivation
+----------
+
+Lors de la séance précédente,
+vous avez utilisé des expressions régulières pour analyser le contenu des pages.
+
+* laborieux
+* limité au HTML
+* fragile
+
+Type de contenu
++++++++++++++++
+
+Présentation
+------------
+
+Il existe une `taxonomie standard`__ des formats de données,
+appelés types de contenu (*media types*).
+
+__ http://www.iana.org/assignments/media-types/media-types.xhtml
+
+Ces types de contenus ont une structure à deux niveaux ;
+exemples :
+
+* ``text/html``
+* ``text/plain``
+* ``image/png``
+* ``audio/mpeg``
+* ``video/H264``
+* ``application/pdf``
+
+Type de contenu d'un message HTTP
+---------------------------------
+
+Tout message HTTP qui comporte un contenu doit spécifier son format,
+à l'aide de l'en-tête ``Content-Type``.
+
+.. rst-class:: response
+.. code-block:: http
+
+ Content-Type: text/html; charset=utf-8
+
+
+Négociation de contenu
+----------------------
+
+Dans la requête,
+le client peut indiquer au serveur les types de contenus qu'il est capable de traiter,
+à l'aide du champs ``Accept``.
+
+.. rst-class:: request
+.. code-block:: http
+
+ Accept: text/html,application/xhtml+xml,
+         application/xml;q=0.9,*/*;q=0.8
+
+Le verbe ``HEAD``
+-----------------
+
+Lorsqu'on est intéressé uniquement par les en-têtes, et *pas* par le contenu,
+on peut utiliser le verbe ``HEAD`` au lieu du verbe ``GET``.
+
+
+Formats usuels
+++++++++++++++
+
+HTML : ``text/html``
+--------------------
+
+Format *documentaire*, surtout destiné à l'affichage.
+
+Sauf pour les formats qui ne fournissent *que* ce format,
+on lui péférera des formats plus adaptés au traitement automatique.
+
+HTML en Java
+````````````
+
+Bibliothèque Jsoup_ (installation maven__).
+
+.. _Jsoup: http://jsoup.org/
+
+__ http://mvnrepository.com/artifact/org.jsoup/jsoup
+
+XML : ``application/xml``
+-------------------------
+
+Peut-être vu comme une extension de HTML,
+autorisant n'importe quelle balise :
+
+.. code-block:: xml
+
+   <commande no="12345">
+     <client no="678-789"/>
+     <articles>
+       <article code="ab12">
+         <quantité>2</quantité>
+         <prix>10.10</prix>
+       </article>
+       <article code="cd34">
+         <quantité>7</quantité>
+         <prix>42.00</prix>
+       </article>
+     </articles>
+   </commande>
+
+XML en Java
+```````````
+
+Disponible en standard : `javax.xml.parsers`__.
+
+.. code-block:: java
+
+   DocumentBuilder db =
+       DocumentBuilderFactory.newInstance().newDocumentBuilder();
+   Document doc = db.parse(inputStream, urlString);
+
+
+__ http://docs.oracle.com/javase/7/docs/api/javax/xml/parsers/package-summary.html
+
+JSON
+----
+
+Sous-ensemble de Javascript,
+limité à la description de données :
+
+.. code-block:: json
+
+   {
+     "no_commande": "12345",
+     "no_client": "678-789",
+     "articles": [
+       {
+         "code": "ab12",
+         "quantite": 2,
+         "prix": 10.10
+       },
+       {
+         "code": "cd34",
+         "quantite": 7,
+         "prix": 42.10
+       }
+     ]
+   }
+
+`Pour en savoir plus`__
+
+__ http://champin.net/enseignement/intro-js/s3.html#json
+
+JSON en Java
+````````````
+
+Bibliothèque GSON_ (installation maven__).
+
+.. _GSON: https://code.google.com/p/google-gson/
+
+__ http://mvnrepository.com/artifact/com.google.code.gson/gson
+
+Votre travail
++++++++++++++
+
+Votre travail
+-------------
+
+Améliorez le programme de la séance précédente :
+
+#. en utilisant le verbe ``HEAD`` lorsque c'est possible ;
+#. en affichant le type de contenu de la réponse ;
+#. en ne recherchant les liens que si le contenu est du HTML ;
+#. en catégorisant les liens trouvés par type de contenu...
+
+Si vous avez le temps :
+
+* remplacer les expression régulières par un véritable *parser* HTML
+  (par exemple JSoup_).
+

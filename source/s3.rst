@@ -1,9 +1,90 @@
-:orphan:
-
-S3
-====
+Séance 3 : requête POST
+=======================
 
 .. include:: common.rst.inc
 .. ifslides::
 
    .. include:: credits.rst.inc
+
+Introduction
+++++++++++++
+
+Motivation
+----------
+
+Jusqu'à maintenant,
+nous n'avons utilisé que des requêtes de consultation (``GET`` et ``HEAD``).
+
+Il est parfois nécessaire de *modifier* les données du serveur.
+C'est notamment ce qui se passe lorsqu'on utilise un formulaire HTML
+(par exemple pour poster un billet de blog ou passer une commande).
+
+Requête POST
+++++++++++++
+
+Rappel : structure d'un formulaire
+----------------------------------
+
+.. code-block:: html
+
+   <form action="./comment/create" method="POST">
+     <label>Nom : <input name="name"></label>
+     <label>Adresse mél : <input name="email"></label>
+     <label>Commentaire : <textarea name="comment"></textarea></label>
+     <button>Laisser un commentaire</button>
+   </form>
+
+Que se passe-t-il lorsqu'on clique sur le bouton ?
+
+Requête POST de formulaire
+--------------------------
+
+Le navigateur envoie une requête ``POST`` à l'URL indiqué par l'attribut ``action``,
+dont le contenu décrit les champs du formulaire,
+sous la forme suivante ::
+
+  nom1=valeur1&nom2=valeur2&nom3=valeur3 ...
+
+NB: les valeurs doivent être encodée selon un format particulier.
+En java, la classe `java.net.URLEncoder <http://docs.oracle.com/javase/7/docs/api/java/net/URLEncoder.html>`_
+offre cette fonctionalité.
+
+Autres formats de données
+-------------------------
+
+Le type de contenu ``application/x-www-form-urlencoded`` est bien adapté pour les formulaires HTML,
+mais n'est pas le seul possible.
+
+Pour les services Web destinés à être utilisés par d'autres programmes,
+d'autres types (comme XML ou JSON) sont utilisés.
+
+.. note::
+
+   D'ailleurs, même pour les formulaires HTML,
+   lorsqu'on souhaite téléverser un fichier,
+   on utilise un autre type de contenu : ``multipart/form-data``.
+
+Votre travail
++++++++++++++
+
+Le contexte
+-----------
+
+Nous allons utiliser le `Blog éphémère`__,
+un service de blog minimaliste dédié à ce cours.
+
+__ http://dsi-liris-silex.univ-lyon1.fr/apiweb/blogephem/
+
+Votre travail
+-------------
+
+Écrivez un programme qui
+
+* permette à l'utilisateur de saisir un titre et un contenu,
+* crée sur le blog éphémère un article avec ces informations,
+* affiche l'URL de l'article créé.
+
+En commentaire de votre code,
+vous expliquerez le travail de rétro-ingénierie que vous aurez effectué pour pouvoir écrire ce programme
+(par exemple, en affichant le code source du formulaire de création,
+et en utilisant la console développeur de votre navigateur).

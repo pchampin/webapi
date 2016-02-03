@@ -1,0 +1,155 @@
+Séances 4 et 5 : API et manipulation de ressource
+=================================================
+
+.. include:: common.rst.inc
+.. ifslides::
+
+   .. include:: credits.rst.inc
+
+Notion d'API Web
+++++++++++++++++
+
+Définition
+----------
+
+En programmation classique,
+on appelle API (*Application Programming Interface*)
+l'ensemble des classes et des fonctions que propose une bibliothèque,
+dédiée à la manipulation d'une certaine catégorie d'objets.
+
+Une API Web est
+l'ensemble des requêtes HTTP que propose un serveur,
+permettant la manipulation des ressources de ce serveur.
+
+
+Autres verbes
++++++++++++++
+
+``PUT``
+-------
+
+Ce verbe sert à envoyer un contenu à une ressource pour *modifier* son état.
+En général,
+le contenu du ``PUT`` correspond à une version modifiée du contenu retourné par un précédent ``GET``.
+
+``DELETE``
+----------
+
+Ce verbe sert à supprimer une ressource du serveur.
+
+
+Votre travail
++++++++++++++
+
+Votre travail
+-------------
+
+En vous appuyant sur `la documentation de l'API du blog éphémère`__,
+vous devez écrire deux classes, permettant d'accéder à ce blog.
+
+En d'autre terme,
+vous devez proposer une API Java qui donne accès à l'API Web du blog éphémère.
+    
+__ http://dsi-liris-silex.univ-lyon1.fr/apiweb/blogephem/apidoc
+
+
+Classe ``Blog``
+---------------
+
+.. code-block:: java
+
+    public class Blog {
+        public Blog(URL url) {}
+        public URL getURL() {}
+        public Iterable<URL> iterArticles() {}
+        public URL createArticle(String title, String body) {}
+    }
+
+* Le « consructeur » ne crée pas un nouveau blog ;
+  il crée un objet Java qui permet d'accéder au blog **pré-existant** sur le Web.
+
+* Le constructeur prend une URL en paramètre,
+  car il peut exister d'autres blogs compatible avec cette API Web.
+
+* La méthode ``createArticle`` pourra s'inspirer de ce que vous avez fait à la séance précédente,
+  mais il est également possible de poster du XML plutôt que des données de formulaire.
+
+Classe ``Article``
+------------------
+
+.. code-block:: java
+
+    public class Article {
+        public Article(URL url) {}
+        protected refresh() {}
+        public URL getURL() {}
+        public String getTitle() {}
+        public String getBody() {}
+        public String getDate() {}
+        public void setTitle(String newTitle) {}
+        public void setBody(String newBody) {}
+        public void delete() {}
+    }
+
+* Ici encore,
+  le « constructeur » ne sert **pas** à créer un nouvel article
+  (voir ``Blog.createArticle`` pour cela),
+  mais à créer un objet Java qui donne accès à un article *existant*.
+
+.. nextslide::
+
+* La méthode protégée ``refresh`` est celle qui effectue la requête ``GET``
+  pour récupérer les données XML de l'article.
+  Elle doit être appelée à chaque fois que c'est nécessaire :
+
+  + ni trop (pas la peine de faire une requête HTTP inutile),
+  + ni trop peu (pensez bien que l'article peut-être modifié sur le serveur
+    par un autre programme, y compris pendant que vous l'utilisez).
+
+Pour aller plus loin
+++++++++++++++++++++
+
+Classe ``Blog`` améliorée
+-------------------------
+
+.. code-block:: java
+
+    public class Blog {
+        public Blog(URL url) {}
+        public URL getURL() {}
+        public Iterable<Article> iterArticles() {}
+        public Iterable<Article> iterArticles(String filtre) {}
+        public Article createArticle(String title, String body) {}
+    }
+
+Utilisation des *etags*
+-----------------------
+
+Les *etags* (*entity tags*) permettent d'économiser de la bande passante,
+tout en garantissant que les données sont à jour.
+
+L'*etag* est une chaîne de caractère associée à la ressource,
+qui change à chaque fois que la ressource est modifiée
+(une espèce de « numéro de série »).
+
+Le serveur fournit l'*etag* de la ressource dans l'en-tête ``Etag``.
+Lors de la première requêre ``GET`` qu'il fait à une ressource,
+le client mémorise cet *etag*.
+
+.. nextslide::
+
+Lors des requêtes ``GET`` suivantes,
+le client fournit l'*etag* dans l'en-tête ``If-None-Match``.
+
+* Si la ressource n'a pas été modifiée,
+  le serveur répond avec le code ``304 Not modified``
+  sans contenu (et économise ainsi du temps et de la bande passante).
+
+* Si la ressource a été modifiée,
+  le serveur répond normalement avec le code ``200 OK``
+  avec le nnouveau contenu et le nouvel *etag*.
+
+NB: les *etags* participent, avec d'autres en-tête,
+à la gestion des `caches <cache>`:doc:.
+
+
