@@ -273,7 +273,7 @@ Exemple
         cx.connect();
         int status = cx.getResponseCode();
         String contentType = cx.getHeaderField("content-type");
-        OutputStream body = cx.getOutputStream();
+        InputStream body = cx.getInputStream();
 
 
 Votre travail
