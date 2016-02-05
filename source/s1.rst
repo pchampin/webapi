@@ -90,7 +90,7 @@ Principe
 
 HTTP est basé sur l'échange de **messages**…:
 
-* le serveur envoie un message *requête*
+* le client envoie un message *requête*
 * le serveur retourne un message *réponse*
 
 Chaque échange est indépendant des autres (messages auto-suffisants).
@@ -163,7 +163,7 @@ Structure d'une réponse
 
 * Première ligne
 
-  - versioon du protocole HTTP
+  - version du protocole HTTP
   - code de statut
   - libellé textuel
 
@@ -312,5 +312,5 @@ vous devez créer une instance de ``java.net.Proxy`` et la passer en paramètre 
 .. code-block:: java
 
    Proxy proxy = new Proxy(Proxy.Type.HTTP,
-                           new InetSocketAddress("proxy.univ-lyon1.fr", 3128));
+           new InetSocketAddress("proxy.univ-lyon1.fr", 3128));
    conn = url.openConnection(proxy);
