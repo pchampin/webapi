@@ -65,7 +65,7 @@ Classe ``Blog``
         public URL createArticle(String title, String body) {}
     }
 
-* Le « consructeur » ne crée pas un nouveau blog ;
+* Le « constructeur » ne crée pas un nouveau blog ;
   il crée un objet Java qui permet d'accéder au blog **pré-existant** sur le Web.
 
 * Le constructeur prend une URL en paramètre,
@@ -105,6 +105,18 @@ Classe ``Article``
   + ni trop (pas la peine de faire une requête HTTP inutile),
   + ni trop peu (pensez bien que l'article peut-être modifié sur le serveur
     par un autre programme, y compris pendant que vous l'utilisez).
+
+Analyser du XML en Java
+```````````````````````
+
+.. code-block:: java
+                
+    javax.xml.parsers.DocumentBuilder db =
+            javax.xml.parsers.DocumentBuilderFactory
+                    .newInstance().newDocumentBuilder();
+    org.w3c.dom.Document doc = db.parse(cxIs, url.toString());
+    org.w3c.dom.NodeList nl = doc.getDocumentElement().getChildNodes();
+
 
 Pour aller plus loin
 ++++++++++++++++++++
