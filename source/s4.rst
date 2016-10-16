@@ -110,7 +110,9 @@ Analyser du XML en Java
 ```````````````````````
 
 .. code-block:: java
-                
+
+    URL url; // l'URL que vous venez de requêter
+    InputStream cxIs; // the flux contenant la réponse du serveur
     javax.xml.parsers.DocumentBuilder db =
             javax.xml.parsers.DocumentBuilderFactory
                     .newInstance().newDocumentBuilder();
