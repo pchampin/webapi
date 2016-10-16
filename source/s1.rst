@@ -290,6 +290,11 @@ Votre travail
 
 #. détermine si la page contient des liens brisés...
 
+Pour vérifier que votre programme gère bien tous les cas possibles,
+vous pouvez le tester sur `cette page`__.
+
+__ ./_static/test_liens.html
+
 .. hint::
 
    Pour extraire les URLs des liens,

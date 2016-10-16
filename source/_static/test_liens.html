@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf8">
+    <title>Une page avec des liens brisés</title>
+    <link rel="stylesheet" href="style_absent.css">
+  </head>
+  <body>
+    <h1>Une page avec des liens brisés</h1>
+    <ul>
+    <li><a href="../_static/test_liens.html">Ce lien n'est <em>pas</em> brisé</a>.
+    <li><a href="../../apiweb">Ce lien est une redirection</a>
+    <li><a href="fichier_absent.html">Ce lien est brisé</a>
+    <li><a href="http://no.such.server.com/hello">Ce lien est très brisé</a>
+    <li><a href="ftp://127.0.0.1/">Ce lien n'est pas une URL http</a>
+    <li><a href="xyz://127.0.0.1/">Ce lien n'est vraiment pas une URL http</a>
+    </ul>
+    <img alt="image présente" src="../_static/cc.png">
+    <img alt="image absente" src="image_absente.png">
+</html>
