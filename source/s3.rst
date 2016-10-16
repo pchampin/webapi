@@ -39,13 +39,17 @@ Que se passe-t-il lorsqu'on clique sur le bouton ?
 Requête POST de formulaire
 --------------------------
 
-Le navigateur envoie une requête ``POST`` à l'URL indiqué par l'attribut ``action``,
-dont le contenu décrit les champs du formulaire,
+Le navigateur envoie une requête ``POST`` à l'URL indiqué par l'attribut ``action``.
+Le *contenu* de cette requête décrit les champs du formulaire,
 sous la forme suivante ::
 
-  nom1=valeur1&nom2=valeur2&nom3=valeur3 ...
+  name=valeur1&email=valeur2&comment=valeur3
 
-NB: les valeurs doivent être encodée selon un format particulier.
+Ce format est identifié dans par l'entête de message::
+
+  content-type: application/x-www-form-urlencoded
+
+NB: les *valeurs* doivent être encodée selon un format particulier.
 En java, la classe `java.net.URLEncoder <http://docs.oracle.com/javase/7/docs/api/java/net/URLEncoder.html>`_
 offre cette fonctionalité.
 
