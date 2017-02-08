@@ -77,7 +77,7 @@ Le contexte
 Nous allons utiliser le `Blog éphémère`__,
 un service de blog minimaliste dédié à ce cours.
 
-__ http://dsi-liris-silex.univ-lyon1.fr/apiweb/blogephem/
+__ https://liris-ktbs01.insa-lyon.fr:8000/blogephem/
 
 Votre travail
 -------------
