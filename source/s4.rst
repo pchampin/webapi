@@ -50,7 +50,7 @@ vous devez écrire deux classes, permettant d'accéder à ce blog.
 En d'autre terme,
 vous devez proposer une API Java qui donne accès à l'API Web du blog éphémère.
     
-__ http://dsi-liris-silex.univ-lyon1.fr/apiweb/blogephem/apidoc
+__ https://liris-ktbs01.insa-lyon.fr:8000/blogephem/apidoc
 
 
 Classe ``Blog``
