@@ -27,3 +27,9 @@ OpenStreetMap
 * Documentation : http://wiki.openstreetmap.org/wiki/API
 * Point d'entrée : http://api.openstreetmap.org/api/0.6/
 * Base de test : http://api06.dev.openstreetmap.org/
+
+ICNDb
+-----
+
+* Documentation : http://www.icndb.com/api/
+* Point d'entrée : https://api.icndb.com
