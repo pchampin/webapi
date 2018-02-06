@@ -126,7 +126,7 @@ Disponible en standard : `javax.xml.parsers`__.
    Document doc = db.parse(inputStream, urlString);
 
 
-__ http://docs.oracle.com/javase/7/docs/api/javax/xml/parsers/package-summary.html
+__ http://docs.oracle.com/javase/9/docs/api/javax/xml/parsers/package-summary.html
 
 JSON
 ----
@@ -174,13 +174,16 @@ Votre travail
 
 Améliorez le programme de la séance précédente :
 
-#. en utilisant le verbe ``HEAD`` lorsque c'est possible ;
-#. en affichant le type de contenu de la réponse ;
-#. en ne recherchant les liens que si le contenu est du HTML ;
-#. en catégorisant les liens trouvés par type de contenu...
+#. vérifiant si l'URL passée au programme retourne bien du HTML,
+   et en ne comptant les liens *que* dans ce cas ;
+#. vérifiant si l'URL passée au programme retourne bien du HTML,
+   et en ne comptant les liens *que* dans ce cas ;
+#. en utilisant le verbe ``HEAD`` (au lieu de ``GET``)
+   pour vérifier la validité des liens ;
+#. en affichant le nombre de liens valides par grande catégorie de contenu
+   (``text``, ``image``, ``audio``...).
 
 Si vous avez le temps :
 
 * remplacer les expression régulières par un véritable *parser* HTML
   (par exemple JSoup_).
-

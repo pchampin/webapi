@@ -255,25 +255,40 @@ HTTP en Java
 Classes utiles
 --------------
 
-* `java.net.URL <http://docs.oracle.com/javase/7/docs/api/java/net/URL.html>`_
-* `java.net.HttpURLConnection <http://docs.oracle.com/javase/7/docs/api/java/net/HttpURLConnection.html>`_
+* `java.net.URL <http://docs.oracle.com/javase/9/docs/api/java/net/URL.html>`_
+* `java.net.HttpURLConnection <http://docs.oracle.com/javase/9/docs/api/java/net/HttpURLConnection.html>`_
 
 Exemple
 -------
 
 .. code-block:: java
 
-        // construction de la requête
-        URL url = new URL("http://meteo.example.org/france/lyon");
-        HttpURLConnection cx = (HttpURLConnection) url.openConnection();
-        cx.setRequestMethod("GET"); // facultatif, c'est la valeur par défaut
-        cx.addRequestProperty("User-Agent", "My super app V0.1");
+        // préparation de la requête
+        URL url = new URL("http://httpbin.org/");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET"); // facultatif : c'est GET par défaut
+        conn.addRequestProperty("Accept-language", "fr");
+        // définition d'autres en-têtes, au besoin...
 
-        // récupération de la réponse
-        cx.connect();
-        int status = cx.getResponseCode();
-        String contentType = cx.getHeaderField("content-type");
-        InputStream body = cx.getInputStream();
+        // envoi de la requête
+        conn.connect();
+
+.. nextslide::
+
+.. code-block:: java
+
+        // exploitation de la réponse
+        int status = conn.getResponseCode();
+        String contentType = conn.getHeaderField("content-type");
+        InputStream bodyStream = conn.getInputStream();
+
+        BufferedReader bodyReader =
+                new BufferedReader(new InputStreamReader(bodyStream));
+        String line = bodyReader.readLine();
+        while (line != null) {
+            doSomethingWith(line);
+            line = bodyReader.readLine();
+        }
 
 
 Votre travail
@@ -282,31 +297,56 @@ Votre travail
 Votre travail
 -------------
 
-Écrivez un programme qui, étant donné une URL,
+Écrivez un programme qui, étant donné l'URL d'un fichier HTML,
 
-#. détermine si la ressource existe,
+affiche :
 
-#. détermine le nombre de liens (``src`` ou ``href``) que contient la page,
+#. le nombre de liens valides,
 
-#. détermine si la page contient des liens brisés...
+#. le nombre de liens brisés,
+
+#. le nombre de liens non HTTP.
 
 Pour vérifier que votre programme gère bien tous les cas possibles,
 vous pouvez le tester sur `cette page`__.
 
 __ ./_static/test_liens.html
 
-.. hint::
 
-   Pour extraire les URLs des liens,
-   il pourra utiliser l'`expression régulière`__ suivante :
-   ``(src|href)="([^"]*)"``
-   (`exemple de mise en œuvre`__).
+Indication : liens relatifs
+---------------------------
 
-__ https://docs.oracle.com/javase/7/docs/api/java/util/regex/package-summary.html
-__ http://docs.oracle.com/javase/tutorial/essential/regex/test_harness.html
+De nombreux liens présents sur une page HTML sont des liens *relatifs*.
 
-Proxy Lyon 1
-------------
+La classe ``URL`` permet heureusement de construire une URL absolue,
+à partir d'une URL de base (``URL``) et d'un lien relatif (``String``) :
+
+.. code-block:: java
+
+  URL lienAbsolu = new URL(base, lienRelatif);
+
+Indication : extraire les liens d'un code HTML
+----------------------------------------------
+
+Pour extraire les URLs des liens,
+il pourra utiliser l'`expression régulière`__ suivante :
+``(src|href)\s*=\s*["']([^"']*)["']``
+
+.. code-block:: java
+
+      String htmlCode = "(...)";
+      Pattern regex = Pattern.compile(
+          "(src|href)\\s*=\\s*[\"']([^\"']*)[\"']");
+      Matcher matcher = regex.matcher(htmlCode);
+      while (matcher.find()) {
+          test_link(matcher.group(2));
+      }
+
+
+__ https://docs.oracle.com/javase/9/docs/api/java/util/regex/package-summary.html
+
+Indication : Proxy Lyon 1
+-------------------------
 
 Sur le réseau de l'université,
 vos requêtes HTTP doivent passer à travers un serveur appelé *proxy*.

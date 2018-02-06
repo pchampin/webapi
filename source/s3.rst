@@ -49,8 +49,8 @@ Ce format est identifié dans par l'entête de message::
 
   content-type: application/x-www-form-urlencoded
 
-NB: les *valeurs* doivent être encodée selon un format particulier.
-En java, la classe `java.net.URLEncoder <http://docs.oracle.com/javase/7/docs/api/java/net/URLEncoder.html>`_
+NB: les *valeurs* doivent être encodées selon un format particulier.
+En java, la classe `java.net.URLEncoder <http://docs.oracle.com/javase/9/docs/api/java/net/URLEncoder.html>`_
 offre cette fonctionalité.
 
 Autres formats de données
@@ -67,6 +67,47 @@ d'autres types (comme XML ou JSON) sont utilisés.
    D'ailleurs, même pour les formulaires HTML,
    lorsqu'on souhaite téléverser un fichier,
    on utilise un autre type de contenu : ``multipart/form-data``.
+
+Requête POST en Java
+++++++++++++++++++++
+
+Exemple
+-------
+
+.. code-block:: java
+
+        URL url = new URL("http://httpbin.org/post");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("POST");
+        conn.addRequestProperty("content-type", "application/x-www-form-urlencoded");
+        conn.setDoOutput(true);
+        OutputStream stream = conn.getOutputStream();
+        OutputStreamWriter writer = new OutputStreamWriter(stream);
+        writer.write("hello=world&bonjour=monde");
+        writer.close();
+        conn.connect();
+
+.. note::
+
+  Cet exemple est un simple test.
+  En situation réelle, il faut construire le contenu du message de manière robuste,
+  notamment en utilisant `java.net.URLEncoder <http://docs.oracle.com/javase/9/docs/api/java/net/URLEncoder.html>`_.
+
+Exemple JSON
+------------
+
+.. code-block:: java
+
+        URL url = new URL("http://httpbin.org/post");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("POST");
+        conn.addRequestProperty("content-type", "application/json");
+        conn.setDoOutput(true);
+        OutputStream stream = conn.getOutputStream();
+        OutputStreamWriter writer = new OutputStreamWriter(stream);
+        writer.write("{ \"hello\": \"world\", \"bonjour\": \"monde\" }"); //
+        writer.close();
+        conn.connect();
 
 Votre travail
 +++++++++++++
