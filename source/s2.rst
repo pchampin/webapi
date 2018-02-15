@@ -80,7 +80,7 @@ HTML : ``text/html``
 
 Format *documentaire*, surtout destiné à l'affichage.
 
-Sauf pour les formats qui ne fournissent *que* ce format,
+Sauf pour les serveurs qui ne fournissent *que* ce format,
 on lui péférera des formats plus adaptés au traitement automatique.
 
 HTML en Java
@@ -174,8 +174,6 @@ Votre travail
 
 Améliorez le programme de la séance précédente :
 
-#. vérifiant si l'URL passée au programme retourne bien du HTML,
-   et en ne comptant les liens *que* dans ce cas ;
 #. vérifiant si l'URL passée au programme retourne bien du HTML,
    et en ne comptant les liens *que* dans ce cas ;
 #. en utilisant le verbe ``HEAD`` (au lieu de ``GET``)
