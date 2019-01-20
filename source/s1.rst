@@ -63,10 +63,10 @@ Rôle du serveur
 
 * De même, on réduit la plupart du temps le rôle du serveur à celui d'un *fournisseur* de données.
 
-* Or dans de nombreux cas, le serveur reçois également des données du client :
+* Or dans de nombreux cas, le serveur reçoit également des données du client :
 
   - requête à un moteur de recherche,
-  - commande passée sur un site marchant,
+  - commande passée sur un site marchand,
   - message posté sur un mur...
 
 * Ces données modifient l'état des ressources...
@@ -231,13 +231,13 @@ Exemples de réponse
 Codes de statut
 ---------------
 
-HTTP définit 40 codes de statut, répartis en cinq catérogires :
+HTTP définit 40 codes de statut, répartis en cinq catégories :
 
 .. list-table::
    :header-rows: 1
 
-   * - Catégories
-     - Exemples
+   * - Catégorie
+     - Exemple
    * - 1xx : Information
      - 100 Continue
    * - 2xx : Succès
@@ -329,7 +329,7 @@ Indication : extraire les liens d'un code HTML
 ----------------------------------------------
 
 Pour extraire les URLs des liens,
-il pourra utiliser l'`expression régulière`__ suivante :
+on pourra utiliser l'`expression régulière`__ suivante :
 ``(src|href)\s*=\s*["']([^"']*)["']``
 
 .. code-block:: java

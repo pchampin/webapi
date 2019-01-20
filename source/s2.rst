@@ -30,7 +30,7 @@ appelés types de contenu (*media types*).
 
 __ http://www.iana.org/assignments/media-types/media-types.xhtml
 
-Ces types de contenus ont une structure à deux niveaux ;
+Ces types de contenu ont une structure à deux niveaux ;
 exemples :
 
 * ``text/html``
@@ -56,7 +56,7 @@ Négociation de contenu
 ----------------------
 
 Dans la requête,
-le client peut indiquer au serveur les types de contenus qu'il est capable de traiter,
+le client peut indiquer au serveur les types de contenu qu'il est capable de traiter,
 à l'aide du champs ``Accept``.
 
 .. rst-class:: request
@@ -95,7 +95,7 @@ __ http://mvnrepository.com/artifact/org.jsoup/jsoup
 XML : ``application/xml``
 -------------------------
 
-Peut-être vu comme une extension de HTML,
+Peut être vu comme une extension de HTML,
 autorisant n'importe quelle balise :
 
 .. code-block:: xml
@@ -174,14 +174,12 @@ Votre travail
 
 Améliorez le programme de la séance précédente :
 
-#. vérifiant si l'URL passée au programme retourne bien du HTML,
+#. en remplaçant les expression régulières par un véritable *parser* HTML
+   (par exemple JSoup_) ;
+#. en vérifiant si l'URL passée au programme retourne bien du HTML,
    et en ne comptant les liens *que* dans ce cas ;
 #. en utilisant le verbe ``HEAD`` (au lieu de ``GET``)
    pour vérifier la validité des liens ;
 #. en affichant le nombre de liens valides par grande catégorie de contenu
    (``text``, ``image``, ``audio``...).
 
-Si vous avez le temps :
-
-* remplacer les expression régulières par un véritable *parser* HTML
-  (par exemple JSoup_).
