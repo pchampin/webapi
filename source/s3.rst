@@ -45,7 +45,7 @@ sous la forme suivante ::
 
   name=valeur1&email=valeur2&comment=valeur3
 
-Ce format est identifié dans par l'entête de message::
+Ce format est identifié dans l'entête de message::
 
   content-type: application/x-www-form-urlencoded
 
