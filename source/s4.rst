@@ -49,7 +49,7 @@ vous devez écrire deux classes, permettant d'accéder à ce blog.
 
 En d'autre terme,
 vous devez proposer une API Java qui donne accès à l'API Web du blog éphémère.
-    
+
 __ https://liris-ktbs01.insa-lyon.fr:8000/blogephem/apidoc
 
 
@@ -71,8 +71,10 @@ Classe ``Blog``
 * Le constructeur prend une URL en paramètre,
   car il peut exister d'autres blogs compatible avec cette API Web.
 
+.. nextslide::
+
 * La méthode ``createArticle`` pourra s'inspirer de ce que vous avez fait à la séance précédente,
-  mais il est également possible de poster du XML plutôt que des données de formulaire.
+  mais vous devez poster du XML plutôt que des données de formulaire.
 
 Classe ``Article``
 ------------------
