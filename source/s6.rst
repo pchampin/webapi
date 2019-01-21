@@ -11,7 +11,7 @@ Facebook
 --------
 
 * Documentation : https://developers.facebook.com/docs/graph-api
-* Point d'entrée : http://graph.facebook.com/v2.2/
+* Point d'entrée : http://graph.facebook.com/v2.12/
 * Interface d'exploration : https://developers.facebook.com/tools/explorer
 
 Wikipedia (MediaWiki)
@@ -27,6 +27,12 @@ OpenStreetMap
 * Documentation : http://wiki.openstreetmap.org/wiki/API
 * Point d'entrée : http://api.openstreetmap.org/api/0.6/
 * Base de test : http://api06.dev.openstreetmap.org/
+
+The Movie DB
+------------
+
+* Documentation : https://developers.themoviedb.org/3
+* Point d'entrée : https://api.themoviedb.org/3/
 
 ICNDb
 -----
