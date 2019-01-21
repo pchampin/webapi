@@ -175,7 +175,7 @@ Structure d'une réponse
 Exemples de réponse
 ```````````````````
 .. rst-class:: response
-.. code-block:: http
+.. code-block:: none
  :emphasize-lines: 1
 
  HTTP/1.x 200 OK
@@ -199,7 +199,7 @@ Exemples de réponse
 .. nextslide::
 
 .. rst-class:: response
-.. code-block:: http
+.. code-block:: none
  :emphasize-lines: 1
 
  HTTP/1.x 303 See also
@@ -214,7 +214,7 @@ Exemples de réponse
 .. nextslide::
 
 .. rst-class:: response
-.. code-block:: http
+.. code-block:: none
  :emphasize-lines: 1
 
  HTTP/1.x 404 Not Found

@@ -47,7 +47,7 @@ Tout message HTTP qui comporte un contenu doit spécifier son format,
 à l'aide de l'en-tête ``Content-Type``.
 
 .. rst-class:: response
-.. code-block:: http
+.. code-block:: none
 
  Content-Type: text/html; charset=utf-8
 
@@ -60,7 +60,7 @@ le client peut indiquer au serveur les types de contenu qu'il est capable de tra
 à l'aide du champs ``Accept``.
 
 .. rst-class:: request
-.. code-block:: http
+.. code-block:: none
 
  Accept: text/html,application/xhtml+xml,
          application/xml;q=0.9,*/*;q=0.8
