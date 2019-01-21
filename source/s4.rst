@@ -121,6 +121,16 @@ Analyser du XML en Java
     org.w3c.dom.Document doc = db.parse(cxIs, url.toString());
     org.w3c.dom.NodeList nl = doc.getDocumentElement().getChildNodes();
 
+Sérialiser du XML en Java
+`````````````````````````
+
+.. code-block:: java
+
+    DOMImplementationLS domImplementation = (DOMImplementationLS) doc.getImplementation();
+    LSSerializer lsSerializer = domImplementation.createLSSerializer();
+    lsSerializer.getDomConfig().setParameter("xml-declaration", Boolean.FALSE);
+    String xml = lsSerializer.writeToString(doc);
+
 
 Pour aller plus loin
 ++++++++++++++++++++
@@ -167,5 +177,3 @@ le client fournit l'*etag* dans l'en-tête ``If-None-Match``.
 
 NB: les *etags* participent, avec d'autres en-tête,
 à la gestion des `caches <cache>`:doc:.
-
-
