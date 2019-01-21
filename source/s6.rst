@@ -11,14 +11,14 @@ Facebook
 --------
 
 * Documentation : https://developers.facebook.com/docs/graph-api
-* Point d'entrée : http://graph.facebook.com/v2.12/
+* Point d'entrée : https://graph.facebook.com/v3.2/
 * Interface d'exploration : https://developers.facebook.com/tools/explorer
 
 Wikipedia (MediaWiki)
 ---------------------
 
-* Documentation : http://en.wikipedia.org/w/api.php?action=help
-* Point d'entrée : http://en.wikipedia.org/w/api.php
+* Documentation : https://en.wikipedia.org/w/api.php?action=help
+* Point d'entrée : https://en.wikipedia.org/w/api.php
 * Exemples d'utilisation : dans la documentation
 
 OpenStreetMap
