@@ -81,7 +81,7 @@ HTML : ``text/html``
 Format *documentaire*, surtout destiné à l'affichage.
 
 Sauf pour les serveurs qui ne fournissent *que* ce format,
-on lui péférera des formats plus adaptés au traitement automatique.
+on lui préférera des formats plus adaptés au traitement automatique.
 
 HTML en Java
 ````````````
