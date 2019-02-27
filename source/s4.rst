@@ -69,7 +69,7 @@ Classe ``Blog``
   il crée un objet Java qui permet d'accéder au blog **pré-existant** sur le Web.
 
 * Le constructeur prend une URL en paramètre,
-  car il peut exister d'autres blogs compatible avec cette API Web.
+  car il peut exister d'autres blogs compatibles avec cette API Web.
 
 .. nextslide::
 
@@ -83,7 +83,7 @@ Classe ``Article``
 
     public class Article {
         public Article(URL url) {}
-        protected refresh() {}
+        protected void refresh() {}
         public URL getURL() {}
         public String getTitle() {}
         public String getBody() {}
@@ -114,7 +114,7 @@ Analyser du XML en Java
 .. code-block:: java
 
     URL url; // l'URL que vous venez de requêter
-    InputStream cxIs; // the flux contenant la réponse du serveur
+    InputStream cxIs; // le flux contenant la réponse du serveur
     javax.xml.parsers.DocumentBuilder db =
             javax.xml.parsers.DocumentBuilderFactory
                     .newInstance().newDocumentBuilder();
@@ -173,7 +173,7 @@ le client fournit l'*etag* dans l'en-tête ``If-None-Match``.
 
 * Si la ressource a été modifiée,
   le serveur répond normalement avec le code ``200 OK``
-  avec le nnouveau contenu et le nouvel *etag*.
+  avec le nouveau contenu et le nouvel *etag*.
 
-NB: les *etags* participent, avec d'autres en-tête,
+NB: les *etags* participent, avec d'autres en-têtes,
 à la gestion des `caches <cache>`:doc:.

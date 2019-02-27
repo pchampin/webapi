@@ -4,8 +4,8 @@ Séance 6 : APIs Web existantes
 .. include:: common.rst.inc
 .. ifslides::
 
-APIs Web rélles
-+++++++++++++++
+APIs Web réelles
+++++++++++++++++
 
 Facebook
 --------

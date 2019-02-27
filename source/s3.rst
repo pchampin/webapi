@@ -39,7 +39,7 @@ Que se passe-t-il lorsqu'on clique sur le bouton ?
 Requête POST de formulaire
 --------------------------
 
-Le navigateur envoie une requête ``POST`` à l'URL indiqué par l'attribut ``action``.
+Le navigateur envoie une requête ``POST`` à l'URL indiquée par l'attribut ``action``.
 Le *contenu* de cette requête décrit les champs du formulaire,
 sous la forme suivante ::
 
@@ -51,7 +51,7 @@ Ce format est identifié dans l'entête de message::
 
 NB: les *valeurs* doivent être encodées selon un format particulier.
 En java, la classe `java.net.URLEncoder <http://docs.oracle.com/javase/9/docs/api/java/net/URLEncoder.html>`_
-offre cette fonctionalité.
+offre cette fonctionnalité.
 
 Autres formats de données
 -------------------------
