@@ -297,20 +297,17 @@ Votre travail
 Votre travail
 -------------
 
-Écrivez un programme qui, étant donné l'URL d'un fichier HTML,
+L'objectif de ce TP est d'écrire une classe qui, étant donnée une page Web,
+vérifie l'état de tous les liens contenus dans cette page
+(y compris les images, les feuilles de styles, etc.)
+et compte combien de ces liens sont valides, brisés ou non-HTTP.
 
-affiche :
+Pour réaliser ce travail, clonez  `ce dépôt git`__,
+et complétez la classe ``LinksChecker``.
+La classe ``TestTP1`` contient un jeu de test
+qui vous permet de vérifier la conformité de votre implémentation.
 
-#. le nombre de liens valides,
-
-#. le nombre de liens brisés,
-
-#. le nombre de liens non HTTP.
-
-Pour vérifier que votre programme gère bien tous les cas possibles,
-vous pouvez le tester sur `cette page`__.
-
-__ ./_static/test_liens.html
+__ https://forge.univ-lyon1.fr/PA.Champin/apiweb_tp1/
 
 
 Indication : liens relatifs
