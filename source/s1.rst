@@ -329,6 +329,7 @@ La classe ``URL`` permet heureusement de construire une URL absolue,
 
   URL lienAbsolu = new URL(base, lienRelatif);
 
+
 Indication : extraire les liens d'un code HTML
 ----------------------------------------------
 
@@ -346,5 +347,20 @@ on pourra utiliser l'`expression régulière`__ suivante :
           test_link(matcher.group(2));
       }
 
-
 __ https://docs.oracle.com/javase/9/docs/api/java/util/regex/package-summary.html
+
+
+Indication : proxy
+------------------
+
+Sur le réseau de l'université,
+il peut être nécessaire de rediriger vos requêtes HTTP à travers un serveur appelé *proxy*.
+
+Pour ce faire,
+vous devez créer une instance de ``java.net.Proxy`` et la passer en paramètre de ``openConnection`` comme ci-dessous:
+
+.. code-block:: java
+
+   Proxy proxy = new Proxy(Proxy.Type.HTTP,
+           new InetSocketAddress("proxy.univ-lyon1.fr", 3128));
+   conn = url.openConnection(proxy);
