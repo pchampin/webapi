@@ -309,6 +309,13 @@ qui vous permet de vérifier la conformité de votre implémentation.
 
 __ https://forge.univ-lyon1.fr/PA.Champin/apiweb_tp1/
 
+.. note::
+
+  La classe ``TestTP1`` utilise notamment `cette page`__,
+  qui contient un échantillon représentatif des types de liens que doit pouvoir gérer votre programme.
+
+__ ./_static/test_liens.html
+
 
 Indication : liens relatifs
 ---------------------------
