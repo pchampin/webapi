@@ -53,29 +53,6 @@ vous devez proposer une API Java qui donne accès à l'API Web du blog éphémè
 __ https://liris-ktbs01.insa-lyon.fr:8000/blogephem/apidoc
 
 
-Classe ``Blog``
----------------
-
-.. code-block:: java
-
-    public class Blog {
-        public Blog(URL url) {}
-        public URL getURL() {}
-        public Iterable<URL> iterArticles() {}
-        public URL createArticle(String title, String body) {}
-    }
-
-* Le « constructeur » ne crée pas un nouveau blog ;
-  il crée un objet Java qui permet d'accéder au blog **pré-existant** sur le Web.
-
-* Le constructeur prend une URL en paramètre,
-  car il peut exister d'autres blogs compatibles avec cette API Web.
-
-.. nextslide::
-
-* La méthode ``createArticle`` pourra s'inspirer de ce que vous avez fait à la séance précédente,
-  mais vous devez poster du XML plutôt que des données de formulaire.
-
 Classe ``Article``
 ------------------
 
@@ -84,6 +61,7 @@ Classe ``Article``
     public class Article {
         public Article(URL url) {}
         protected void refresh() {}
+        protected void update() {}
         public URL getURL() {}
         public String getTitle() {}
         public String getBody() {}
@@ -93,10 +71,11 @@ Classe ``Article``
         public void delete() {}
     }
 
-* Ici encore,
-  le « constructeur » ne sert **pas** à créer un nouvel article
-  (voir ``Blog.createArticle`` pour cela),
-  mais à créer un objet Java qui donne accès à un article *existant*.
+* Le « constructeur » ne crée pas un nouvel article ;
+  il crée un objet Java qui permet d'accéder à l'article **pré-existant** sur le Web.
+
+* C'est la méthode ``Blog.createArticle`` (cf. ci-aprèsà
+  qui permettra de créer un nouvel article.
 
 .. nextslide::
 
@@ -107,6 +86,37 @@ Classe ``Article``
   + ni trop (pas la peine de faire une requête HTTP inutile),
   + ni trop peu (pensez bien que l'article peut-être modifié sur le serveur
     par un autre programme, y compris pendant que vous l'utilisez).
+
+* La méthode protégée ``update`` est celle qui effectue la requête ``PUT``
+  pour mettre à jour les données XML de l'article.
+  Elle doit être appelée à chaque fois que c'est nécessaire.
+
+Classe ``Blog``
+---------------
+
+.. code-block:: java
+
+    public class Blog {
+        public Blog(URL url) {}
+        public URL getURL() {}
+        public Iterable<Article> iterArticles() {}
+        public Iterable<Article> iterArticles(String filtre) {}
+        public Article createArticle(String title, String body) {}
+    }
+
+* Ici encore,
+  le « constructeur » ne sert **pas** à créer le blog éphémère
+  (qui évidemment existe déjà)
+  mais à créer un *objet Java* qui permet d'interagir avec le blog.
+
+* Le constructeur prend une URL en paramètre,
+  car il peut exister d'autres blogs compatibles avec cette API Web.
+
+.. nextslide::
+
+* La méthode ``createArticle`` pourra s'inspirer de ce que vous avez fait à la séance précédente,
+  mais vous devez poster du XML plutôt que des données de formulaire.
+
 
 Analyser du XML en Java
 ```````````````````````
@@ -126,27 +136,17 @@ Sérialiser du XML en Java
 
 .. code-block:: java
 
-    DOMImplementationLS domImplementation = (DOMImplementationLS) doc.getImplementation();
+    org.w3c.dom.Document doc; // le document à sérialiser
+    DOMImplementationLS domImplementation =
+            (DOMImplementationLS) doc.getImplementation();
     LSSerializer lsSerializer = domImplementation.createLSSerializer();
-    lsSerializer.getDomConfig().setParameter("xml-declaration", Boolean.FALSE);
+    lsSerializer.getDomConfig()
+            .setParameter("xml-declaration", Boolean.FALSE);
     String xml = lsSerializer.writeToString(doc);
 
 
 Pour aller plus loin
 ++++++++++++++++++++
-
-Classe ``Blog`` améliorée
--------------------------
-
-.. code-block:: java
-
-    public class Blog {
-        public Blog(URL url) {}
-        public URL getURL() {}
-        public Iterable<Article> iterArticles() {}
-        public Iterable<Article> iterArticles(String filtre) {}
-        public Article createArticle(String title, String body) {}
-    }
 
 Utilisation des *etags*
 -----------------------
