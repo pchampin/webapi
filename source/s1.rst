@@ -249,6 +249,14 @@ HTTP définit 40 codes de statut, répartis en cinq catégories :
    * - 5xx : Erreur serveur
      - 500 Internal Server Error
 
+Ces catégories améliorent l'interopérabilité:
+une bibliothèque HTTP pourra par exemple décider de lancer une exception lorsqu'un code 4xx ou 5xx est reçu.
+
+.. note::
+
+  Notez que ce n'est pas le cas de la bibliothèque standard de Java,
+  que nous utilisons dans la suite.
+
 HTTP en Java
 ++++++++++++
 
