@@ -16,10 +16,6 @@ Contribuer
 
 Toute contribution à ce cours est la bienvenue.
 
-Pour installer localement les sources et générer les fichiers HTML,
-vous avez besoin de Sphinx_ et Hieroglyph_ ,
-ainsi que de l'extension Seqdiag_.
-
 Après avoir cloné ce dépôt,
 vous devez exécuter une fois les commandes suivantes
 afin de récupérer le thème utilisé ::
@@ -27,10 +23,10 @@ afin de récupérer le thème utilisé ::
   git submodule init
   git submodule update
 
+Vous devez ensuite installer les dépendances (vous aurez besoin de Python 3):
+
+  python3 -m pip install -r requirements.txt
+
 puis, pour générer les documents ::
 
   make publishable
-
-.. _Sphinx: http://sphinx-doc.org/
-.. _Hieroglyph: http://hieroglyph.io/
-.. _Seqdiag: http://blockdiag.com/en/seqdiag/sphinxcontrib.html
